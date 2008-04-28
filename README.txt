@@ -95,4 +95,4 @@ IBehaviorAssignable (which, recall, is application specific), and if the
 implementation of IBehaviorAssignable says that this context supports this
 particular behavior.
 
-Please see behavior.txt and directives.txt for more details. 
+Please see behavior.txt and directives.txt for more details.
