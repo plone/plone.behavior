@@ -1,0 +1,57 @@
+===============================
+plone.behavior: ZCML directives
+===============================
+
+plone.behavior defines a ZCML directive, in meta.zcml as usual.
+
+For the purpose of this test, we have defined a dummy behavior in
+plone.behavior.tests
+
+    >>> configuration = """\
+    ... <configure
+    ...      xmlns="http://namespaces.zope.org/zope"
+    ...      xmlns:plone="http://namespaces.plone.org/plone"
+    ...      i18n_domain="plone.behavior.tests">
+    ...     
+    ...     <include package="plone.behavior" file="meta.zcml" />
+    ...     
+    ...     <plone:behavior
+    ...         name="plone.behavior.tests.Dummy"
+    ...         title="Dummy behavior"
+    ...         description="Dummy behavior that does nothing"
+    ...         interface="plone.behavior.tests.IDummyBehavior"
+    ...         factory="plone.behavior.tests.DummyBehavior"
+    ...         />
+    ...     
+    ... </configure>
+    ... """
+
+Let's first verify that we don't have the dummy data registered already:
+
+    >>> from zope.component import getGlobalSiteManager
+    >>> sm = getGlobalSiteManager()
+
+    >>> from plone.behavior.interfaces import IBehavior
+    >>> [u for u in sm.registeredUtilities() if u.name == u"plone.behavior.tests.Dummy"]
+    []
+    
+    >>> from plone.behavior.tests import IDummyBehavior
+    >>> [a for a in sm.registeredAdapters() if a.provided == IDummyBehavior]
+    []
+
+We should now be able to load the sample configuration, which also includes the
+meta.zcml file from plone.behavior:
+
+    >>> from StringIO import StringIO
+    >>> from zope.configuration import xmlconfig
+    >>> xmlconfig.xmlconfig(StringIO(configuration))
+
+With this in place, the behavior should be registered:
+
+    >>> from plone.behavior.interfaces import IBehavior
+    >>> [u for u in sm.registeredUtilities() if u.name == u"plone.behavior.tests.Dummy"] # doctest: +ELLIPSIS
+    [UtilityRegistration(..., IBehavior, 'plone.behavior.tests.Dummy', <plone.behavior.registration.BehaviorRegistration object at ...>, u'')]
+    
+    >>> from plone.behavior.tests import IDummyBehavior
+    >>> [a for a in sm.registeredAdapters() if a.provided == IDummyBehavior]  # doctest: +ELLIPSIS
+    [AdapterRegistration(..., [Interface], IDummyBehavior, '', <plone.behavior.factory.BehaviorAdapterFactory object at ...>, ...)]

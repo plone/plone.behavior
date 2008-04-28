@@ -1,0 +1,7 @@
+Changelog
+=========
+
+1.0b1 - Released April 27th 2008
+--------------------------------
+
+* Initial release
