@@ -60,3 +60,24 @@ class IBehaviorAdapterFactory(Interface):
         IBehaviorAssignable(context).supports(self.behavior.interface) returns
         True.
         """
+        
+class IBehaviorRegistry(Interface):
+    """A registry of behaviors that looks up behaviors by interface
+    """
+    
+    def register(interface, behavior_interface):
+        """Register a new behavior for the given interface.
+        """
+        
+    def unregister(interface, behavior_interface):
+        """Unregister a behavior for the given interface.
+        """
+    
+    def is_registered(interface, behavior_interface):
+        """Return True or False to indicate whether the given behavior is
+        registerd for the given interface.
+        """
+    
+    def enumerate(interface):
+        """Yield behavior interfaces for a given interface.
+        """
