@@ -50,7 +50,7 @@ With this in place, the behavior should be registered:
 
     >>> from plone.behavior.interfaces import IBehavior
     >>> [u for u in sm.registeredUtilities() if u.name == u"plone.behavior.tests.Dummy"] # doctest: +ELLIPSIS
-    [UtilityRegistration(..., IBehavior, 'plone.behavior.tests.Dummy', <plone.behavior.registration.BehaviorRegistration object at ...>, u'')]
+    [UtilityRegistration(..., IBehavior, 'plone.behavior.tests.Dummy', <BehaviorRegistration for plone.behavior.tests.IDummyBehavior>, u'')]
     
     >>> from plone.behavior.tests import IDummyBehavior
     >>> [a for a in sm.registeredAdapters() if a.provided == IDummyBehavior]  # doctest: +ELLIPSIS

@@ -10,3 +10,6 @@ class BehaviorRegistration(object):
         self.description = description
         self.interface = interface
         self.factory = factory
+        
+    def __repr__(self):
+        return "<BehaviorRegistration for %s>" % (self.interface.__identifier__,)
