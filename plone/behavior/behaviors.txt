@@ -35,7 +35,6 @@ Then, for each behavior:
    ZCML directive makes this easy. See directives.txt. An example might be:
    
         <plone:behavior
-            name="my.locking"
             title="Locking"
             description="Support object-level locking"
             interface=".interfaces.ILocking"
@@ -93,7 +92,10 @@ interface that makes this easy:
     ...     factory=LockingSupport)
 
     >>> from zope.component import provideUtility
-    >>> provideUtility(registration, name=u"example.mybehavior")
+    >>> provideUtility(registration, name=ILockingSupport.__identifier__)
+
+NOTE: By convention, the behavior name should be the same as the identifier 
+of its interface.
 
 We also need to register an adapter factory that can create an instance of
 an ILockingSupport for any context. This is a bit different to a standard
