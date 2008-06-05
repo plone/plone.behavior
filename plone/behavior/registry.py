@@ -6,6 +6,11 @@ from zope.component import getUtility
 
 from plone.behavior.interfaces import IBehaviorRegistry, IBehavior
 
+# XXX: This may be a point pointless - the main use case is Dexterity, which
+# doesn't use this (it stores registrations in the FTI); for a pure Zope 3
+# approach, you can just as easily store behaviors as local adapter 
+# registrations
+
 class PersistentBehaviorRegistry(Persistent):
     """A persistent registry that can be configured as a local utility.
     

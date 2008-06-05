@@ -7,6 +7,11 @@ from zope.app.content.interfaces import IContentType
 from plone.behavior.interfaces import IBehaviorAssignable
 from plone.behavior.interfaces import IBehaviorRegistry
 
+# XXX: This may be a point pointless - the main use case is Dexterity, which
+# doesn't use this (it stores registrations in the FTI); for a pure Zope 3
+# approach, you can just as easily store behaviors as local adapter 
+# registrations
+
 class ContentTypeBehaviorAssignable(object):
     """Sample adapter that uses queryType for a given interface (IContentType
     by default) to determine the type of its context, and then looks up a

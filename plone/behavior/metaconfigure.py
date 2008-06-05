@@ -17,11 +17,6 @@ class IBehaviorDirective(Interface):
     adapter)
     """
     
-    name = schema.DottedName(
-        title=u"Name",
-        description=u"A unique name for this behavior",
-        required=True)
-        
     title = schema.TextLine(
         title=u"Title",
         description=u"A user friendly title for this behavior",
@@ -47,7 +42,7 @@ class IBehaviorDirective(Interface):
         description=u"This is optional - the default is to register the factory for zope.interface.Interface",
         required=False)
         
-def behaviorDirective(_context, name, title, description, interface, factory, for_=Interface):
+def behaviorDirective(_context, title, description, interface, factory, for_=Interface):
     
     registration = BehaviorRegistration(title=title,
                                         description=description,
@@ -58,7 +53,7 @@ def behaviorDirective(_context, name, title, description, interface, factory, fo
     
     utility(_context, 
             provides=IBehavior,
-            name=name,
+            name=interface.__identifier__,
             component=registration)
             
     adapter(_context, 

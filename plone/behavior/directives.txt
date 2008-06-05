@@ -16,7 +16,6 @@ plone.behavior.tests
     ...     <include package="plone.behavior" file="meta.zcml" />
     ...     
     ...     <plone:behavior
-    ...         name="plone.behavior.tests.Dummy"
     ...         title="Dummy behavior"
     ...         description="Dummy behavior that does nothing"
     ...         interface="plone.behavior.tests.IDummyBehavior"
@@ -49,8 +48,8 @@ meta.zcml file from plone.behavior:
 With this in place, the behavior should be registered:
 
     >>> from plone.behavior.interfaces import IBehavior
-    >>> [u for u in sm.registeredUtilities() if u.name == u"plone.behavior.tests.Dummy"] # doctest: +ELLIPSIS
-    [UtilityRegistration(..., IBehavior, 'plone.behavior.tests.Dummy', <BehaviorRegistration for plone.behavior.tests.IDummyBehavior>, u'')]
+    >>> [u for u in sm.registeredUtilities() if u.name == u"plone.behavior.tests.IDummyBehavior"] # doctest: +ELLIPSIS
+    [UtilityRegistration(..., IBehavior, 'plone.behavior.tests.IDummyBehavior', <BehaviorRegistration for plone.behavior.tests.IDummyBehavior>, u'')]
     
     >>> from plone.behavior.tests import IDummyBehavior
     >>> [a for a in sm.registeredAdapters() if a.provided == IDummyBehavior]  # doctest: +ELLIPSIS
