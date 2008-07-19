@@ -1,6 +1,7 @@
 from zope.interface import Interface
+from zope.interface.interfaces import IInterface
+
 from zope import schema
-from zope.configuration.fields import GlobalObject, GlobalInterface
 
 class IBehaviorAssignable(Interface):
     """An object will be adapted to this interface to determine if it supports
@@ -16,8 +17,7 @@ class IBehaviorAssignable(Interface):
         """
         
     def enumerate_behaviors():
-        """Return an iterable of all the interfaces of the behaviors supported by 
-        the context.
+        """Return an iterable of all the IBehaviors supported by the context.
         """
 
 class IBehavior(Interface):
@@ -32,10 +32,21 @@ class IBehavior(Interface):
     description = schema.Text(title=u"Longer description of the behavior",
                               required=False)
 
-    interface = GlobalInterface(title=u"Interface describing this behavior")
+    interface = schema.Object(title=u"Interface describing this behavior",
+                              required=True,
+                              schema=IInterface)
 
-    factory = GlobalObject(title=u"An adapter factory for the behavior",
-                           required=True)
+    subtype = schema.Object(title=u"Marker interface for objects sporting this behavior",
+                            description=u"Due to the persistent nature of marker interfaces, " +
+                                        u"you should only use this if you really need it, e.g. " +
+                                        u"to support specific view or viewlet registrations. " +
+                                        u"Subtypes will typically be set when an object is created",
+                            required=False,
+                            schema=IInterface)
+
+    factory = schema.Object(title=u"An adapter factory for the behavior",
+                            required=True,
+                            schema=Interface)
 
 class IBehaviorAdapterFactory(Interface):
     """An adapter factory that wraps a given behavior's own factory. By
@@ -52,32 +63,12 @@ class IBehaviorAdapterFactory(Interface):
      the context cannot be adapted to IBehaviorAssignable at all.
     """
     
-    behavior = GlobalObject(title=u"The behavior this is a factory for")
+    behavior = schema.Object(title=u"The behavior this is a factory for",
+                             schema=IBehavior)
     
     def __call__(context):
         """Invoke the behavior-specific factory if the context can be adapted
         to IBehaviorAssignable and 
         IBehaviorAssignable(context).supports(self.behavior.interface) returns
         True.
-        """
-        
-class IBehaviorRegistry(Interface):
-    """A registry of behaviors that looks up behaviors by interface
-    """
-    
-    def register(interface, behavior_interface):
-        """Register a new behavior for the given interface.
-        """
-        
-    def unregister(interface, behavior_interface):
-        """Unregister a behavior for the given interface.
-        """
-    
-    def is_registered(interface, behavior_interface):
-        """Return True or False to indicate whether the given behavior is
-        registerd for the given interface.
-        """
-    
-    def enumerate(interface):
-        """Yield behavior interfaces for a given interface.
         """

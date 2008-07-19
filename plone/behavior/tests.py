@@ -4,8 +4,6 @@ import zope.testing.doctest
 import zope.component.testing
 import zope.app.testing.placelesssetup
 
-import plone.behavior.registry
-
 # Dummy behavior for the directives.txt test
 from zope.interface import Interface, implements
 
@@ -27,9 +25,5 @@ def test_suite():
         zope.testing.doctest.DocFileSuite('directives.txt',
                      setUp=zope.app.testing.placelesssetup.setUp,
                      tearDown=zope.app.testing.placelesssetup.tearDown),
-                     
-        zope.testing.doctest.DocTestSuite(plone.behavior.registry,
-                     # setUp=setUp,
-                     tearDown=zope.app.testing.placelesssetup.tearDown),
-                     
+                                          
         ))

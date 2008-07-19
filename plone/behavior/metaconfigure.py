@@ -31,6 +31,11 @@ class IBehaviorDirective(Interface):
         title=u"The interface describing this behavior",
         description=u"This is what the conditional adapter factory will be registered as providing",
         required=True)
+        
+    subtype = configuration_fields.GlobalInterface(
+        title=u"A marker interface to apply to newly created objects supporting this behavior",
+        description=u"Only use this if you really need it, e.g. to support view or viewlet registrations.",
+        required=False)
     
     factory = configuration_fields.GlobalObject(
         title=u"The factory for this behavior",
@@ -42,11 +47,12 @@ class IBehaviorDirective(Interface):
         description=u"This is optional - the default is to register the factory for zope.interface.Interface",
         required=False)
         
-def behaviorDirective(_context, title, description, interface, factory, for_=Interface):
+def behaviorDirective(_context, title, description, interface, factory, subtype=None, for_=Interface):
     
     registration = BehaviorRegistration(title=title,
                                         description=description,
                                         interface=interface,
+                                        subtype=subtype,
                                         factory=factory)
 
     adapter_factory = BehaviorAdapterFactory(registration)
