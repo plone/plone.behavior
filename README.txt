@@ -8,7 +8,7 @@ This package provides optional support for "behaviors". A behavior is
 essentially a conditionally available adapter.
 
 For example, let's say that your application needs to support object-level
-locking, and that this can be modelled via an adapter, but you want to leave
+locking, and that this can be modeled via an adapter, but you want to leave
 it until runtime to determine whether locking is enabled for a particular 
 object. You could then register locking as a behavior.
 
