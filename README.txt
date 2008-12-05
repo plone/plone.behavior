@@ -2,8 +2,6 @@
 plone.behavior
 ==============
 
-By Martin Aspeli
-
 This package provides optional support for "behaviors". A behavior is 
 essentially a conditionally available adapter.
 
