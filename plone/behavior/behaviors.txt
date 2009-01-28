@@ -37,7 +37,7 @@ to attempt to use it, e.g.:
 
         locking = ILocking(context, None)
         if locking is not None:
-            locoking.lock()
+            locking.lock()
       
 Here, ILocking is a registered behavior interface. The adaptation will only
 succeed if the context support behaviors (i.e. it can be adapted to
