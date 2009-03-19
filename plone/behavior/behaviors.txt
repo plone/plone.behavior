@@ -289,3 +289,38 @@ marker interface automatically:
     
     >>> ITaggable.providedBy(context1)
     False
+
+It may be useful to mark the content with the behavior interface
+directly for cases where the marker is all that's needed for the
+behavior to work.  In these cases no factory is needed, because the
+object already provides the behavior directly as indicated by the
+marker:
+
+    >>> class IMarkerBehavior(Interface):
+    ...     pass
+
+    >>> from plone.behavior.registration import BehaviorRegistration
+    >>> registration = BehaviorRegistration(
+    ...     title=u"",
+    ...     description=u"",
+    ...     interface=IMarkerBehavior,
+    ...     subtype=IMarkerBehavior,
+    ...     factory=None)
+
+    >>> from zope.component import provideUtility
+    >>> provideUtility(registration, name=IMarkerBehavior.__identifier__)
+    >>> factory = BehaviorAdapterFactory(registration)
+    >>> provideAdapter(factory=factory, adapts=(Interface,), provides=IMarkerBehavior)
+    >>> BEHAVIORS.setdefault(SomeContext, set()).add(IMarkerBehavior)
+
+When we adapt an object using this behavior, we get the object itself back,
+since it implements our behavior interface directly:
+
+    >>> context = SomeContext()
+    >>> IMarkerBehavior.providedBy(context)
+    False
+    >>> apply_subtypes(context, ObjectCreatedEvent(context))
+    >>> IMarkerBehavior.providedBy(context)
+    True
+    >>> IMarkerBehavior(context) is context
+    True

@@ -15,4 +15,10 @@ class BehaviorAdapterFactory(object):
             return None
         if not assignable.supports(self.behavior.interface):
             return None
-        return self.behavior.factory(context)
+        if self.behavior.factory is not None:
+            adapted = self.behavior.factory(context)
+        else:
+            # When no factory is specified the object should provide the
+            # behavior directly
+            adapted = context
+        return adapted

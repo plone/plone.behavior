@@ -5,6 +5,9 @@ Changelog
 1.0 (unreleased)
 ----------------
 
+* Allow behaviors with no factory.
+  [alecm]
+
 * Provide a vocabulary of available behaviors.
   [davisagli]
 
