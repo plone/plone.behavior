@@ -93,4 +93,27 @@ IBehaviorAssignable (which, recall, is application specific), and if the
 implementation of IBehaviorAssignable says that this context supports this
 particular behavior.
 
+It is also possible to designate a marker interface which is assumed to be
+provided by the behavior when it is enabled. This is useful if you need
+to register other adapters (including views and viewlets) for instances
+providing a particular behavior.
+
+Like the IBehaviorAssignable plumbing, sub-type support needs to be eanbled
+on a per-application basis. It can be done with a custom __providedBy__
+decorator or an IObjectCreatedEvent handler for applying the marker. A sample
+event handler is provided with this package, but is not registered by default
+A subtype can be described with ZCML like this::
+
+        <plone:behavior
+            name="my.package.Tagging"
+            title="Tagging"
+            description="Support for tagging"
+            interface=".interfaces.ITagging"
+            factory=".tagging.TaggingSupport"
+            subtype=".interfaces.ITaggedContent"
+            />
+
+If a subtype is specified and the 'interface' and 'subtype' arguments are
+the same, the 'factory' is optional.
+
 Please see behavior.txt and directives.txt for more details.

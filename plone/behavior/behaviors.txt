@@ -12,18 +12,19 @@ Usage
 -----
 
 To use this package, you must first provide a suitable IBehaviorAssignable
-adapter.
+adapter. This is normally done by the framework. plone.dexterity, for example,
+will provide a suitable adapter.
 
 Then, for each behavior:
 
- - Write an interface describing the behavior.
- 
- - Write a factory (much like an adapter factory) that contains the logic of
+ * Write an interface describing the behavior.
+ * Write a factory (much like an adapter factory) that contains the logic of
    the behavior.
-   
- - Register the behavior. This consists of a utility providing IBehavior and
+ * Register the behavior. This consists of a utility providing IBehavior and
    an adapter factory based on IBehaviorAdapterFactory. The <plone:behavior />
-   ZCML directive makes this easy. See directives.txt. An example might be:
+   ZCML directive makes this easy. See directives.txt.
+   
+An example might be::
    
         <plone:behavior
             title="Locking"
@@ -94,8 +95,8 @@ We also need to register an adapter factory that can create an instance of
 an ILockingSupport for any context. This is a bit different to a standard
 adapter factory (which is normally just a class with a constructor that
 takes the context as an argument), because we want this factory to be
-able to adapt almost anything, but which will return None if the behavior
-isn't actually enabled.
+able to adapt almost anything, but return None (and thus fail to adapt) if
+the behavior isn't currently enabled for the context.
 
 To get these semantics, we can use the BehaviorAdapterFactory helper
 class.
@@ -205,9 +206,25 @@ can be achieved using adapters only. For this, the standard plone.behavior
 adapter pattern is better, because there is no dependency on per-instance
 markers.
 
-The subtype support depends on an event handler to apply marker interfaces to
-newly created instances. It is not registered by default, since it may not be
-desirable to enable an event handler for every type of object.
+The subtype support can be enabled in one of two says:
+
+  * By using a custom __providedBy__ descriptor that includes the subtypes
+    of all enabled behaviors.
+  * By using an event handler that marks newly created instances with the
+    subtypes of all enabled behaviors.
+    
+The first approach is better in many ways, because it can be made more robust
+in case a subtype interface is removed or renamed, and because it is possible
+to turn off behavior subtypes without finding all objects providing the
+subtype and calling noLongerProvides() on them. However, it is also pretty
+difficult to get this right, and it cannot be generalised (you can't make
+any adapter lookups in the descriptor, since you'd get infinite recursion).
+There's an implementation of such a descriptor in the plone.dexterity package,
+which also uses some heavy caching.
+
+An event handler is easier, and this package provides a simple one that you
+can use. It is not registered by default, since it may not be desirable to
+enable an event handler for every type of object.
 
 For the purposes of this test, we will simulate the event handler by calling
 it directly.
@@ -239,7 +256,8 @@ that will be applied as a subtype.
 
 We will register this behavior as above, this time specifying the subtype
 marker interface explicitly. In real life, of course, we'd be more likely to
-use the <plone:behavior /> ZCML directive with the 'subtype' attribute.
+use the <plone:behavior /> ZCML directive with the 'subtype' attribute. See
+directives.txt for more details.
 
     >>> from plone.behavior.registration import BehaviorRegistration
     >>> registration = BehaviorRegistration(
@@ -290,11 +308,10 @@ marker interface automatically:
     >>> ITaggable.providedBy(context1)
     False
 
-It may be useful to mark the content with the behavior interface
-directly for cases where the marker is all that's needed for the
-behavior to work.  In these cases no factory is needed, because the
-object already provides the behavior directly as indicated by the
-marker:
+It may be useful to mark the content with the behavior interface directly for
+cases where the marker is all that's needed for the behavior to work. In
+these cases no factory is needed, because the object already provides the
+behavior directly as indicated by the marker:
 
     >>> class IMarkerBehavior(Interface):
     ...     pass

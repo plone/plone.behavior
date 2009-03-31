@@ -4,8 +4,18 @@ plone.behavior: ZCML directives
 
 plone.behavior defines a ZCML directive, in meta.zcml as usual.
 
-For the purpose of this test, we have defined a dummy behavior in
-plone.behavior.tests
+For the purpose of this test, we have defined a few dummy behaviors in
+plone.behavior.tests:
+
+  * A standard behavior with an interface and a factory. It will be registered
+    for any context.
+    
+  * A behavior with a subtype marker and a context restriction set in ZCML.
+  
+  * A behavior with a subtype marker without a factory.
+  
+  * A behavior with a factory that has implements() and adapts() directives.
+    The behavior interface and context restriction will be deduced from these.
 
     >>> configuration = """\
     ... <configure
@@ -16,12 +26,31 @@ plone.behavior.tests
     ...     <include package="plone.behavior" file="meta.zcml" />
     ...     
     ...     <plone:behavior
-    ...         title="Dummy behavior"
+    ...         title="Standard behavior"
     ...         description="Dummy behavior that does nothing"
     ...         interface="plone.behavior.tests.IDummyBehavior"
     ...         factory="plone.behavior.tests.DummyBehavior"
     ...         />
-    ...     
+    ...
+    ...     <plone:behavior
+    ...         title="Behavior with subtype"
+    ...         interface="plone.behavior.tests.IDummySubtypeBehavior"
+    ...         factory="plone.behavior.tests.DummySubtypeBehavior"
+    ...         subtype="plone.behavior.tests.IDummySubtypeBehaviorMarker"
+    ...         for="plone.behavior.tests.IMinimalContextRequirements"
+    ...         />
+    ...
+    ...     <plone:behavior
+    ...         title="Behavior with subtype and no factory"
+    ...         subtype="plone.behavior.tests.ISubtypeOnlyMarker"
+    ...         />
+    ...         
+    ...     <plone:behavior
+    ...         title="Behavior with subtype"
+    ...         interface="plone.behavior.tests.IDummyImpliedBehavior"
+    ...         factory="plone.behavior.tests.DummyImpliedBehavior"
+    ...         />
+    ...         
     ... </configure>
     ... """
 
@@ -45,7 +74,7 @@ meta.zcml file from plone.behavior:
     >>> from zope.configuration import xmlconfig
     >>> xmlconfig.xmlconfig(StringIO(configuration))
 
-With this in place, the behavior should be registered:
+With this in place, the behaviors should be registered, e.g:
 
     >>> from plone.behavior.interfaces import IBehavior
     >>> [u for u in sm.registeredUtilities() if u.name == u"plone.behavior.tests.IDummyBehavior"] # doctest: +ELLIPSIS
@@ -54,3 +83,97 @@ With this in place, the behavior should be registered:
     >>> from plone.behavior.tests import IDummyBehavior
     >>> [a for a in sm.registeredAdapters() if a.provided == IDummyBehavior]  # doctest: +ELLIPSIS
     [AdapterRegistration(..., [Interface], IDummyBehavior, '', <plone.behavior.factory.BehaviorAdapterFactory object at ...>, ...)]
+
+Let us test the various utilities and the underlying adapters more carefully.
+
+    >>> from zope.component import getUtility
+    >>> from plone.behavior.interfaces import IBehavior
+
+The standard behavior with an interface and a factory, registered 
+for any context:
+
+    >>> dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IDummyBehavior")
+    >>> dummy.title
+    u'Standard behavior'
+    
+    >>> dummy.description
+    u'Dummy behavior that does nothing'
+
+    >>> dummy.interface
+    <InterfaceClass plone.behavior.tests.IDummyBehavior>
+    
+    >>> dummy.subtype is None
+    True
+    
+    >>> dummy.factory
+    <class 'plone.behavior.tests.DummyBehavior'>
+    
+    >>> from plone.behavior.tests import IDummyBehavior
+    >>> [a.required for a in sm.registeredAdapters() if a.provided == IDummyBehavior][0]
+    (<InterfaceClass zope.interface.Interface>,)
+    
+The behavior with a subtype marker and a context restriction set in ZCML:
+
+    >>> dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IDummySubtypeBehavior")
+    >>> dummy.title
+    u'Behavior with subtype'
+    
+    >>> dummy.description is None
+    True
+
+    >>> dummy.interface
+    <InterfaceClass plone.behavior.tests.IDummySubtypeBehavior>
+    
+    >>> dummy.subtype
+    <InterfaceClass plone.behavior.tests.IDummySubtypeBehaviorMarker>
+    
+    >>> dummy.factory
+    <class 'plone.behavior.tests.DummySubtypeBehavior'>
+  
+    >>> from plone.behavior.tests import IDummySubtypeBehavior
+    >>> [a.required for a in sm.registeredAdapters() if a.provided == IDummySubtypeBehavior][0]
+    (<InterfaceClass plone.behavior.tests.IMinimalContextRequirements>,)
+  
+The behavior with a subtype marker without a factory:
+
+    >>> dummy = getUtility(IBehavior, name=u"plone.behavior.tests.ISubtypeOnlyMarker")
+    >>> dummy.title
+    u'Behavior with subtype and no factory'
+    
+    >>> dummy.description is None
+    True
+    
+    >>> dummy.interface
+    <InterfaceClass plone.behavior.tests.ISubtypeOnlyMarker>
+    
+    >>> dummy.subtype
+    <InterfaceClass plone.behavior.tests.ISubtypeOnlyMarker>
+
+    >>> dummy.factory is None
+    True
+    
+    >>> from plone.behavior.tests import ISubtypeOnlyMarker
+    >>> [a.required for a in sm.registeredAdapters() if a.provided == ISubtypeOnlyMarker][0]
+    (<InterfaceClass zope.interface.Interface>,)
+    
+The behavior with a factory that has implements() and adapts() directives:
+
+    >>> dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IDummyImpliedBehavior")
+    >>> dummy.title
+    u'Behavior with subtype'
+    
+    >>> dummy.description is None
+    True
+    
+    >>> dummy.interface
+    <InterfaceClass plone.behavior.tests.IDummyImpliedBehavior>
+    
+    >>> dummy.subtype is None
+    True
+    
+    >>> dummy.factory
+    <class 'plone.behavior.tests.DummyImpliedBehavior'>
+    
+    >>> from plone.behavior.tests import IDummyImpliedBehavior
+    >>> [a.required for a in sm.registeredAdapters() if a.provided == IDummyImpliedBehavior][0]
+    (<InterfaceClass plone.behavior.tests.ISomeContext>,)
