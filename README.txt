@@ -116,4 +116,5 @@ A subtype can be described with ZCML like this::
 If a subtype is specified and the 'interface' and 'subtype' arguments are
 the same, the 'factory' is optional.
 
-Please see behavior.txt and directives.txt for more details.
+Please see behavior.txt, directives.txt and annotation.txt for more details.
+

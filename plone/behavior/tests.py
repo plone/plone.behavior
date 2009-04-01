@@ -7,6 +7,7 @@ import zope.app.testing.placelesssetup
 # Dummy behaviors for the directives.txt test
 from zope.interface import Interface, implements
 from zope.component import adapts
+from zope import schema
 
 # Simple behavior
 
@@ -54,15 +55,24 @@ class DummyImpliedBehavior(object):
     def __init__(self, context):
         self.context = context
 
+# For test of the annotation factory
+
+class IAnnotationStored(Interface):
+    some_field = schema.TextLine(title=u"Some field", default=u"default value")
+
 def test_suite():
     return unittest.TestSuite((
         
         zope.testing.doctest.DocFileSuite('behaviors.txt',
                      # setUp=setUp,
                      tearDown=zope.component.testing.tearDown),
-        
+
         zope.testing.doctest.DocFileSuite('directives.txt',
                      setUp=zope.app.testing.placelesssetup.setUp,
                      tearDown=zope.app.testing.placelesssetup.tearDown),
-                                          
+
+        zope.testing.doctest.DocFileSuite('annotation.txt',
+                     setUp=zope.app.testing.placelesssetup.setUp,
+                     tearDown=zope.app.testing.placelesssetup.tearDown),
+
         ))

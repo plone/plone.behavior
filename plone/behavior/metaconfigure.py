@@ -8,6 +8,7 @@ from zope.component.zcml import adapter
 from zope.component.zcml import utility
 
 from plone.behavior.interfaces import IBehavior
+from plone.behavior.interfaces import ISchemaAwareFactory
 
 from plone.behavior.registration import BehaviorRegistration
 from plone.behavior.factory import BehaviorAdapterFactory
@@ -53,7 +54,7 @@ def behaviorDirective(_context, title, description=None, interface=None, factory
     
     # Attempt to guess the factory's implemented interface and use it as the behavior interface
     
-    if interface is None and factory is not None:
+    if interface is None and factory is not None and not ISchemaAwareFactory.providedBy(factory):
         provided = list(implementedBy(factory))
         if len(provided) == 1:
             interface = provided[0]
@@ -63,6 +64,11 @@ def behaviorDirective(_context, title, description=None, interface=None, factory
     if interface is None:
         raise ConfigurationError(u"Unable to determine a unique behaviour interface. "
                                   "Use the 'interface' attribute to specify one")
+
+    # Instantiate the real factory if it's the schema-aware type. We do
+    # this here so that the for_ interface may take this into account.
+    if factory is not None and ISchemaAwareFactory.providedBy(factory):
+        factory = factory(interface)
     
     # Attempt to guess the factory's adapted interface and use it as the for_
     if for_ is None and factory is not None:
@@ -75,6 +81,8 @@ def behaviorDirective(_context, title, description=None, interface=None, factory
             for_ = Interface
     elif for_ is None:
         for_ = Interface
+        
+
     
     registration = BehaviorRegistration(title=title,
                                         description=description,

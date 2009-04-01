@@ -7,6 +7,9 @@ setup(name='plone.behavior',
       version=version,
       description="Infrastructure for maintaining a registry of available behaviors",
       long_description=open("README.txt").read() + "\n" +
+                       open(os.path.join("plone", "behavior", "behavior.txt")).read() + "\n" +
+                       open(os.path.join("plone", "behavior", "directives.txt")).read() + "\n" +
+                       open(os.path.join("plone", "behavior", "annotation.txt")).read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
@@ -25,9 +28,12 @@ setup(name='plone.behavior',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          # -*- Extra requirements: -*-
+          'zope.component',
+          'zope.interface',
+          'zope.schema',
+          'zope.annotation',
+          'zope.configuration',
       ],
       entry_points="""
-      # -*- Entry points: -*-
       """,
       )

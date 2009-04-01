@@ -72,3 +72,12 @@ class IBehaviorAdapterFactory(Interface):
         IBehaviorAssignable(context).supports(self.behavior.interface) returns
         True.
         """
+
+class ISchemaAwareFactory(Interface):
+    """Marker interface for factories that should be initialised with a
+    schema. The factory must be a callable that takes the schema as an
+    argument and returns another callable that can create appropriate behavior
+    factories on demand.
+    
+    See annotation.py for an example.
+    """
