@@ -7,7 +7,7 @@ setup(name='plone.behavior',
       version=version,
       description="Infrastructure for maintaining a registry of available behaviors",
       long_description=open("README.txt").read() + "\n" +
-                       open(os.path.join("plone", "behavior", "behavior.txt")).read() + "\n" +
+                       open(os.path.join("plone", "behavior", "behaviors.txt")).read() + "\n" +
                        open(os.path.join("plone", "behavior", "directives.txt")).read() + "\n" +
                        open(os.path.join("plone", "behavior", "annotation.txt")).read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
