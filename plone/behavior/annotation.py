@@ -29,8 +29,12 @@ class AnnotationsFactoryImpl(object):
         if name not in self.__dict__['schema']:
             raise AttributeError(name)
         
-        field = self.__dict__['schema'][name]
-        return self.__dict__['annotations'].get(self.__dict__['prefix'] + name, field.default)
+        annotations = self.__dict__['annotations']
+        key_name = self.__dict__['prefix'] + name
+        if key_name not in annotations:
+            raise AttributeError(name)
+        
+        return annotations[key_name]
     
     def __setattr__(self, name, value):
         if name not in self.__dict__['schema']:

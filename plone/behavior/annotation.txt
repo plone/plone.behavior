@@ -72,10 +72,12 @@ We can now adapt the context to our new interface.
 
     >>> adapted = IAnnotationStored(context)
 
-Before we've set anything, we get the default field value:
+Before we've set anything, we get an attribute error.
 
-    >>> adapted.some_field
-    u'default value'
+    >>> adapted.some_field #doctest: +ELLIPSIS
+    Traceback (most recent call last):
+    ...
+    AttributeError: some_field
 
 Let's look at the annotations also:
 
