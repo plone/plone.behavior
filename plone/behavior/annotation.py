@@ -32,7 +32,7 @@ class AnnotationsFactoryImpl(object):
         annotations = self.__dict__['annotations']
         key_name = self.__dict__['prefix'] + name
         if key_name not in annotations:
-            raise AttributeError(name)
+            return self.__dict__['schema'][name].missing_value
         
         return annotations[key_name]
     

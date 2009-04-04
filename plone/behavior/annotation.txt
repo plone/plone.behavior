@@ -72,13 +72,11 @@ We can now adapt the context to our new interface.
 
     >>> adapted = IAnnotationStored(context)
 
-Before we've set anything, we get an attribute error.
+Before we've set anything, we get the field's missing_value
 
-    >>> adapted.some_field #doctest: +ELLIPSIS
-    Traceback (most recent call last):
-    ...
-    AttributeError: some_field
-
+    >>> adapted.some_field is IAnnotationStored['some_field'].missing_value
+    True
+    
 Let's look at the annotations also:
 
     >>> sorted(IAnnotations(context).items())
