@@ -2,8 +2,8 @@
 Changelog
 =========
 
-1.0 (unreleased)
-----------------
+1.0b3 - 2009-04-17
+------------------
 
 * Allow behaviors with no factory.
   [alecm]
@@ -11,7 +11,7 @@ Changelog
 * Provide a vocabulary of available behaviors.
   [davisagli]
 
-1.0b1 - Released April 27th 2008
---------------------------------
+1.0b1 - 2008-04-27
+------------------
 
 * Initial release
