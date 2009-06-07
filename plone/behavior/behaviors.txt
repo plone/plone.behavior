@@ -19,26 +19,27 @@ Then, for each behavior:
 
  * Write an interface describing the behavior.
  * Write a factory (much like an adapter factory) that contains the logic of
-   the behavior.
+   the behavior. This is optional if your interface is a marker interface that
+   can be directly provided by the object.
  * Register the behavior. This consists of a utility providing IBehavior and
    an adapter factory based on IBehaviorAdapterFactory. The <plone:behavior />
    ZCML directive makes this easy. See directives.txt.
    
 An example might be::
    
-        <plone:behavior
-            title="Locking"
-            description="Support object-level locking"
-            interface=".interfaces.ILocking"
-            factory=".locking.LockingBehaviorFactory"
-            />
+    <plone:behavior
+        title="Locking"
+        description="Support object-level locking"
+        provides=".interfaces.ILocking"
+        factory=".locking.LockingBehaviorFactory"
+        />
 
 Once the behavior has been registered, you can use standard adaptation idioms
-to attempt to use it, e.g.:
+to attempt to use it, e.g.::
 
-        locking = ILocking(context, None)
-        if locking is not None:
-            locking.lock()
+    locking = ILocking(context, None)
+    if locking is not None:
+        locking.lock()
       
 Here, ILocking is a registered behavior interface. The adaptation will only
 succeed if the context support behaviors (i.e. it can be adapted to
@@ -81,7 +82,7 @@ interface that makes this easy:
     ...     title=u"Locking support", 
     ...     description=u"Provides content-level locking",
     ...     interface=ILockingSupport,
-    ...     subtype=None,
+    ...     marker=None,
     ...     factory=LockingSupport)
 
     >>> from zope.component import provideUtility
@@ -111,11 +112,11 @@ class.
 One this is registered, it will be possible to adapt any context to 
 ILockingSupport, if:
 
-  - The context can be adapted to IBehaviorAssignable. This is an 
+  * The context can be adapted to IBehaviorAssignable. This is an 
     interface that is used to determine if a particular object supports
     a particular behavior.
     
-  - The behavior is enabled, i.e. the IBehaviorAssignable implementation 
+  * The behavior is enabled, i.e. the IBehaviorAssignable implementation 
     says it is.
 
 Right now, neither of those things are true, so we'll get a TypeError when
@@ -193,8 +194,8 @@ However, if we enable the behavior for this type...
     >>> behavior.lock()
     Locked <sample context>
     
-Sub-types
----------
+Marker interfaces
+-----------------
 
 Behaviors work without the aid of marker interfaces. However, it may sometimes
 be desirable to apply a marker interface to newly created objects that support
@@ -206,16 +207,17 @@ can be achieved using adapters only. For this, the standard plone.behavior
 adapter pattern is better, because there is no dependency on per-instance
 markers.
 
-The subtype support can be enabled in one of two says:
+Marker interface support again requires some framework support not configured
+by this package. One of two possible configurations is possible:
 
-  * By using a custom __providedBy__ descriptor that includes the subtypes
-    of all enabled behaviors.
-  * By using an event handler that marks newly created instances with the
-    subtypes of all enabled behaviors.
+  * A custom __providedBy__ descriptor that includes the markeres of all
+    enabled behaviors can be added to behavior-aware classes.
+  * An event handler can be installed that marks newly created instances with
+    the markers of all enabled behaviors.
     
 The first approach is better in many ways, because it can be made more robust
-in case a subtype interface is removed or renamed, and because it is possible
-to turn off behavior subtypes without finding all objects providing the
+in case a marker interface is removed or renamed, and because it is possible
+to turn off behavior markers without finding all objects providing the
 subtype and calling noLongerProvides() on them. However, it is also pretty
 difficult to get this right, and it cannot be generalised (you can't make
 any adapter lookups in the descriptor, since you'd get infinite recursion).
@@ -229,11 +231,11 @@ enable an event handler for every type of object.
 For the purposes of this test, we will simulate the event handler by calling
 it directly.
 
-    >>> from plone.behavior.subtypes import apply_subtypes
+    >>> from plone.behavior.markers import apply_markers
     >>> from zope.lifecycleevent import ObjectCreatedEvent
 
 Let us create another behavior. This time, we'll provide a marker interface
-that will be applied as a subtype.
+as well.
 
     >>> from zope import schema
     >>> class ITaggable(Interface):
@@ -254,9 +256,9 @@ that will be applied as a subtype.
     ...         self.context.__tags__ = value
     ...     tags = property(get_tags, set_tags)
 
-We will register this behavior as above, this time specifying the subtype
-marker interface explicitly. In real life, of course, we'd be more likely to
-use the <plone:behavior /> ZCML directive with the 'subtype' attribute. See
+We will register this behavior as above, this time specifying the marker
+interface explicitly. In real life, of course, we'd be more likely to use the
+<plone:behavior /> ZCML directive with the 'marker' attribute. See
 directives.txt for more details.
 
     >>> from plone.behavior.registration import BehaviorRegistration
@@ -264,7 +266,7 @@ directives.txt for more details.
     ...     title=u"Tagging support",
     ...     description=u"",
     ...     interface=ITagging,
-    ...     subtype=ITaggable,
+    ...     marker=ITaggable,
     ...     factory=Tagging)
 
     >>> from zope.component import provideUtility
@@ -281,7 +283,7 @@ interface should not be applied.
     >>> ITaggable.providedBy(context1)
     False
     
-    >>> apply_subtypes(context1, ObjectCreatedEvent(context1))
+    >>> apply_markers(context1, ObjectCreatedEvent(context1))
 
     >>> ITaggable.providedBy(context1)
     False
@@ -297,7 +299,7 @@ is fired.
     >>> ITaggable.providedBy(context2)
     False
     
-    >>> apply_subtypes(context2, ObjectCreatedEvent(context2))
+    >>> apply_markers(context2, ObjectCreatedEvent(context2))
 
     >>> ITaggable.providedBy(context2)
     True
@@ -311,7 +313,8 @@ marker interface automatically:
 It may be useful to mark the content with the behavior interface directly for
 cases where the marker is all that's needed for the behavior to work. In
 these cases no factory is needed, because the object already provides the
-behavior directly as indicated by the marker:
+behavior directly as indicated by the marker. Note that the same interface
+is used as the 'interface' and 'marker':
 
     >>> class IMarkerBehavior(Interface):
     ...     pass
@@ -321,7 +324,7 @@ behavior directly as indicated by the marker:
     ...     title=u"",
     ...     description=u"",
     ...     interface=IMarkerBehavior,
-    ...     subtype=IMarkerBehavior,
+    ...     marker=IMarkerBehavior,
     ...     factory=None)
 
     >>> from zope.component import provideUtility
@@ -336,7 +339,7 @@ since it implements our behavior interface directly:
     >>> context = SomeContext()
     >>> IMarkerBehavior.providedBy(context)
     False
-    >>> apply_subtypes(context, ObjectCreatedEvent(context))
+    >>> apply_markers(context, ObjectCreatedEvent(context))
     >>> IMarkerBehavior.providedBy(context)
     True
     >>> IMarkerBehavior(context) is context

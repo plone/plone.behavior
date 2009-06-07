@@ -36,7 +36,7 @@ class IBehavior(Interface):
                               required=True,
                               schema=IInterface)
 
-    subtype = schema.Object(title=u"Marker interface for objects sporting this behavior",
+    marker = schema.Object(title=u"Marker interface for objects sporting this behavior",
                             description=u"Due to the persistent nature of marker interfaces, " +
                                         u"you should only use this if you really need it, e.g. " +
                                         u"to support specific view or viewlet registrations. " +

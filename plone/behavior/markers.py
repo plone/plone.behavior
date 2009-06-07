@@ -1,8 +1,8 @@
 from zope.interface import alsoProvides
 from plone.behavior.interfaces import IBehaviorAssignable
 
-def apply_subtypes(obj, event):
-    """Event handler to apply subtypes for all behaviors enabled
+def apply_markers(obj, event):
+    """Event handler to apply markers for all behaviors enabled
     for the given type.
     """
     
@@ -11,5 +11,5 @@ def apply_subtypes(obj, event):
         return
         
     for behavior in assignable.enumerate_behaviors():
-        if behavior.subtype is not None:
-            alsoProvides(obj, behavior.subtype)
+        if behavior.marker is not None:
+            alsoProvides(obj, behavior.marker)

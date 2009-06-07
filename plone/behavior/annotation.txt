@@ -23,7 +23,7 @@ Let's show how this may be registered in ZCML.
     ...     
     ...     <plone:behavior
     ...         title="Annotation behavior"
-    ...         interface="plone.behavior.tests.IAnnotationStored"
+    ...         provides="plone.behavior.tests.IAnnotationStored"
     ...         factory="plone.behavior.AnnotationStorage"
     ...         />
     ...         

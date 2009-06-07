@@ -9,56 +9,61 @@ from zope.interface import Interface, implements
 from zope.component import adapts
 from zope import schema
 
-# Simple behavior
+# Simple adapter behavior - no context restrictions
 
-class IDummyBehavior(Interface):
+class IAdapterBehavior(Interface):
     pass
 
-class DummyBehavior(object):
-    implements(IDummyBehavior)
+class AdapterBehavior(object):
+    implements(IAdapterBehavior)
     def __init__(self, context):
         self.context = context
 
-# Behavior with subtype
+# Adapter behavior with explicit context restriction
 
-class IDummySubtypeBehavior(Interface):
+class IRestrictedAdapterBehavior(Interface):
     pass
-    
-class IDummySubtypeBehaviorMarker(Interface):
-    pass
+
+class RestrictedAdapterBehavior(object):
+    implements(IRestrictedAdapterBehavior)
+    def __init__(self, context):
+        self.context = context
 
 class IMinimalContextRequirements(Interface):
     pass
-
-class DummySubtypeBehavior(object):
-    implements(IDummySubtypeBehavior)
-    def __init__(self, context):
-        self.context = context
-
-# Behavior with subtype and no factory
-
-class ISubtypeOnlyMarker(Interface):
-    pass
-
+    
 # Behavior with interface and for_ implied by factory
 
-class IDummyImpliedBehavior(Interface):
+class IImpliedRestrictionAdapterBehavior(Interface):
     pass
 
 class ISomeContext(Interface):
     pass
 
-class DummyImpliedBehavior(object):
-    implements(IDummyBehavior)
+class ImpliedRestrictionAdapterBehavior(object):
+    implements(IImpliedRestrictionAdapterBehavior)
     adapts(ISomeContext)
     
     def __init__(self, context):
         self.context = context
 
+# Behavior with marker
+
+class IMarkerBehavior(Interface):
+    pass
+
 # For test of the annotation factory
 
 class IAnnotationStored(Interface):
     some_field = schema.TextLine(title=u"Some field", default=u"default value")
+
+# Behavior and marker
+
+class IMarkerAndAdapterBehavior(Interface):
+    pass
+
+class IMarkerAndAdapterMarker(Interface):
+    pass
 
 def test_suite():
     return unittest.TestSuite((

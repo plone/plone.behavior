@@ -2,6 +2,26 @@
 Changelog
 =========
 
+1.0b4 - 2009-04-17
+------------------
+
+* Allow a marker-interface-only behavior to be set by using the 'provides'
+  attribute (previously 'interface') in the <plone:behavior /> directive
+  without a 'factory' attribute. The 'marker' attribute (previously known as
+  'subtype') is now only required if there is a marker used in addition to
+  a behavior adapter with a separate interface ('provides') and factory.
+  [optilude]
+
+* Rename the 'interface' attribute of <plone:behavior /> to 'provides' to
+  be more consistent with the <adapter /> directive. This is a backwards
+  incompatible change!
+  [optilude]
+
+* Rename the 'subtype' attribute of <plone:behavior /> to 'marker' to
+  be more explicit about its purpose. This is a backwards
+  incompatible change!
+  [optilude]  
+
 1.0b3 - 2009-04-17
 ------------------
 
