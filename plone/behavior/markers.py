@@ -1,7 +1,7 @@
 from zope.interface import alsoProvides
 from plone.behavior.interfaces import IBehaviorAssignable
 
-def apply_markers(obj, event):
+def applyMarkers(obj, event):
     """Event handler to apply markers for all behaviors enabled
     for the given type.
     """
@@ -10,6 +10,6 @@ def apply_markers(obj, event):
     if assignable is None:
         return
         
-    for behavior in assignable.enumerate_behaviors():
+    for behavior in assignable.enumerateBehaviors():
         if behavior.marker is not None:
             alsoProvides(obj, behavior.marker)

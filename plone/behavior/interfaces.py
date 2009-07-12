@@ -16,7 +16,7 @@ class IBehaviorAssignable(Interface):
         True or False.
         """
         
-    def enumerate_behaviors():
+    def enumerateBehaviors():
         """Return an iterable of all the IBehaviors supported by the context.
         """
 

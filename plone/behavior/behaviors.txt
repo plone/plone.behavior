@@ -163,7 +163,7 @@ The adapter can thus be registered like this:
     ...         global BEHAVIORS
     ...         return behavior_interface in BEHAVIORS.get(self.context.__class__, [])
     ...         
-    ...     def enumerate_behaviors(self):
+    ...     def enumerateBehaviors(self):
     ...         global BEHAVIORS
     ...         for iface in BEHAVIORS.get(self.context.__class__, []):
     ...             yield getUtility(IBehavior, iface.__identifier__)
@@ -231,7 +231,7 @@ enable an event handler for every type of object.
 For the purposes of this test, we will simulate the event handler by calling
 it directly.
 
-    >>> from plone.behavior.markers import apply_markers
+    >>> from plone.behavior.markers import applyMarkers
     >>> from zope.lifecycleevent import ObjectCreatedEvent
 
 Let us create another behavior. This time, we'll provide a marker interface
@@ -283,7 +283,7 @@ interface should not be applied.
     >>> ITaggable.providedBy(context1)
     False
     
-    >>> apply_markers(context1, ObjectCreatedEvent(context1))
+    >>> applyMarkers(context1, ObjectCreatedEvent(context1))
 
     >>> ITaggable.providedBy(context1)
     False
@@ -299,7 +299,7 @@ is fired.
     >>> ITaggable.providedBy(context2)
     False
     
-    >>> apply_markers(context2, ObjectCreatedEvent(context2))
+    >>> applyMarkers(context2, ObjectCreatedEvent(context2))
 
     >>> ITaggable.providedBy(context2)
     True
@@ -339,7 +339,7 @@ since it implements our behavior interface directly:
     >>> context = SomeContext()
     >>> IMarkerBehavior.providedBy(context)
     False
-    >>> apply_markers(context, ObjectCreatedEvent(context))
+    >>> applyMarkers(context, ObjectCreatedEvent(context))
     >>> IMarkerBehavior.providedBy(context)
     True
     >>> IMarkerBehavior(context) is context

@@ -55,7 +55,7 @@ IBehaviorAssignable adapter. See behaviors.txt for more details.
     ...         global BEHAVIORS
     ...         return behavior_interface in BEHAVIORS.get(self.context.__class__, [])
     ...         
-    ...     def enumerate_behaviors(self):
+    ...     def enumerateBehaviors(self):
     ...         global BEHAVIORS
     ...         for iface in BEHAVIORS.get(self.context.__class__, []):
     ...             yield getUtility(IBehavior, iface.__identifier__)
