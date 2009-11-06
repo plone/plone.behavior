@@ -95,8 +95,8 @@ With this in place, the behaviors should be registered, e.g:
 
     >>> from plone.behavior.interfaces import IBehavior
     >>> [u for u in sm.registeredUtilities() if u.name == u"plone.behavior.tests.IAdapterBehavior"] # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
-    [UtilityRegistration(..., IBehavior, 'plone.behavior.tests.IAdapterBehavior', <BehaviorRegistration for plone.behavior.tests.IAdapterBehavior>, ... u''),
-     UtilityRegistration(..., IInterface, 'plone.behavior.tests.IAdapterBehavior', IAdapterBehavior, ... '')]    
+    [UtilityRegistration(..., IBehavior, 'plone.behavior.tests.IAdapterBehavior', <BehaviorRegistration for plone.behavior.tests.IAdapterBehavior>,...),
+     UtilityRegistration(..., IInterface, 'plone.behavior.tests.IAdapterBehavior', IAdapterBehavior,...)]    
     
     >>> from plone.behavior.tests import IAdapterBehavior
     >>> [a for a in sm.registeredAdapters() if a.provided == IAdapterBehavior]  # doctest: +ELLIPSIS
