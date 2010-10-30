@@ -19,12 +19,12 @@ class IBehaviorDirective(Interface):
     adapter)
     """
     
-    title = schema.TextLine(
+    title = configuration_fields.MessageID(
         title=u"Title",
         description=u"A user friendly title for this behavior",
         required=True)
         
-    description = schema.Text(
+    description = configuration_fields.MessageID(
         title=u"Description",
         description=u"A longer description for this behavior",
         required=False)
