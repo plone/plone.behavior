@@ -5,6 +5,9 @@ Changelog
 1.0b7 - (Unreleased)
 --------------------
 
+* Use stdlib doctest instead of the deprecated one in zope.testing.
+  [davisagli]
+
 * 'plone:behavior' zcml directive use now MessageID for title and description.
   [sylvainb]
 

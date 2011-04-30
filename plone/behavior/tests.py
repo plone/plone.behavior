@@ -1,6 +1,6 @@
+import doctest
 import unittest
 
-import zope.testing.doctest
 import zope.component.testing
 import zope.app.testing.placelesssetup
 
@@ -68,16 +68,16 @@ class IMarkerAndAdapterMarker(Interface):
 def test_suite():
     return unittest.TestSuite((
         
-        zope.testing.doctest.DocFileSuite('behaviors.txt',
-                     # setUp=setUp,
-                     tearDown=zope.component.testing.tearDown),
+        doctest.DocFileSuite('behaviors.txt',
+            # setUp=setUp,
+            tearDown=zope.component.testing.tearDown),
 
-        zope.testing.doctest.DocFileSuite('directives.txt',
-                     setUp=zope.app.testing.placelesssetup.setUp,
-                     tearDown=zope.app.testing.placelesssetup.tearDown),
+        doctest.DocFileSuite('directives.txt',
+            setUp=zope.app.testing.placelesssetup.setUp,
+            tearDown=zope.app.testing.placelesssetup.tearDown),
 
-        zope.testing.doctest.DocFileSuite('annotation.txt',
-                     setUp=zope.app.testing.placelesssetup.setUp,
-                     tearDown=zope.app.testing.placelesssetup.tearDown),
+        doctest.DocFileSuite('annotation.txt',
+            setUp=zope.app.testing.placelesssetup.setUp,
+            tearDown=zope.app.testing.placelesssetup.tearDown),
 
         ))
