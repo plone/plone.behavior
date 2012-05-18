@@ -2,7 +2,6 @@ import doctest
 import unittest
 
 import zope.component.testing
-import zope.app.testing.placelesssetup
 
 # Dummy behaviors for the directives.txt test
 from zope.interface import Interface, implements
@@ -73,11 +72,11 @@ def test_suite():
             tearDown=zope.component.testing.tearDown),
 
         doctest.DocFileSuite('directives.txt',
-            setUp=zope.app.testing.placelesssetup.setUp,
-            tearDown=zope.app.testing.placelesssetup.tearDown),
+            setUp=zope.component.testing.setUp,
+            tearDown=zope.component.testing.tearDown),
 
         doctest.DocFileSuite('annotation.txt',
-            setUp=zope.app.testing.placelesssetup.setUp,
-            tearDown=zope.app.testing.placelesssetup.tearDown),
+            setUp=zope.component.testing.setUp,
+            tearDown=zope.component.testing.tearDown),
 
         ))

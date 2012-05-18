@@ -36,7 +36,7 @@ setup(name='plone.behavior',
           'zope.configuration',
       ],
       extras_require = {
-          'test': ['zope.app.testing'],
+          'test': [],
       },
       entry_points="""
       """,
