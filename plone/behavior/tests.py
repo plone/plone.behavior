@@ -30,7 +30,7 @@ class RestrictedAdapterBehavior(object):
 
 class IMinimalContextRequirements(Interface):
     pass
-    
+
 # Behavior with interface and for_ implied by factory
 
 class IImpliedRestrictionAdapterBehavior(Interface):
@@ -42,7 +42,7 @@ class ISomeContext(Interface):
 class ImpliedRestrictionAdapterBehavior(object):
     implements(IImpliedRestrictionAdapterBehavior)
     adapts(ISomeContext)
-    
+
     def __init__(self, context):
         self.context = context
 
@@ -66,7 +66,7 @@ class IMarkerAndAdapterMarker(Interface):
 
 def test_suite():
     return unittest.TestSuite((
-        
+
         doctest.DocFileSuite('behaviors.txt',
             # setUp=setUp,
             tearDown=zope.component.testing.tearDown),

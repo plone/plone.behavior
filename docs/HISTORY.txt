@@ -44,7 +44,7 @@ Changelog
   apologies, but it's now or never. :-/
 
   If you find that you get import errors or unknown keyword arguments in your
-  code, please change names from foo_bar too fooBar, e.g. 
+  code, please change names from foo_bar too fooBar, e.g.
   enumerate_behaviors() becomes enumerateBehaviors().
   [optilude]
 
@@ -66,7 +66,7 @@ Changelog
 * Rename the 'subtype' attribute of <plone:behavior /> to 'marker' to
   be more explicit about its purpose. This is a backwards
   incompatible change!
-  [optilude]  
+  [optilude]
 
 1.0b3 - 2009-04-17
 ------------------

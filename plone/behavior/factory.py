@@ -5,10 +5,10 @@ from plone.behavior.interfaces import IBehaviorAssignable
 
 class BehaviorAdapterFactory(object):
     implements(IBehaviorAdapterFactory)
-    
+
     def __init__(self, behavior):
         self.behavior = behavior
-        
+
     def __call__(self, context):
         assignable = IBehaviorAssignable(context, None)
         if assignable is None:
