@@ -1,9 +1,10 @@
-from zope.interface import implements
-
+# -*- coding: utf-8 -*-
 from plone.behavior.interfaces import IBehavior
+from zope.interface import implementer
 
+
+@implementer(IBehavior)
 class BehaviorRegistration(object):
-    implements(IBehavior)
 
     def __init__(self, title, description, interface, marker, factory):
         self.title = title
@@ -13,4 +14,6 @@ class BehaviorRegistration(object):
         self.factory = factory
 
     def __repr__(self):
-        return "<BehaviorRegistration for %s>" % (self.interface.__identifier__,)
+        return "<BehaviorRegistration for {0}>".format(
+            self.interface.__identifier__
+        )

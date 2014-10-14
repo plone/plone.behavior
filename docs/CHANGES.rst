@@ -5,7 +5,9 @@ Changelog
 1.0.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Code modernization: utf-header, pep8, rst-files, adapter/implementer 
+  decorators, ...
+  [jensens]
 
 
 1.0.2 (2013-01-17)
