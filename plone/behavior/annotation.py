@@ -1,11 +1,13 @@
-from zope.interface import alsoProvides
-from zope.component import adapts
-
+# -*- coding: utf-8 -*-
+from plone.behavior.interfaces import ISchemaAwareFactory
 from zope.annotation.interfaces import IAnnotatable
 from zope.annotation.interfaces import IAnnotations
+from zope.component import adapter
+from zope.interface import provider
+from zope.interface import alsoProvides
 
-from plone.behavior.interfaces import ISchemaAwareFactory
 
+@adapter(IAnnotatable)
 class AnnotationsFactoryImpl(object):
     """A factory that knows how to store data in annotations.
 
@@ -16,8 +18,6 @@ class AnnotationsFactoryImpl(object):
     be initialised with the schema interface in the first place. That is the
     role of the Annotations factory below.
     """
-
-    adapts(IAnnotatable)
 
     def __init__(self, context, schema):
         self.__dict__['schema'] = schema
@@ -40,8 +40,11 @@ class AnnotationsFactoryImpl(object):
         if name not in self.__dict__['schema']:
             super(AnnotationsFactoryImpl, self).__setattr__(name, value)
         else:
-            self.__dict__['annotations'][self.__dict__['prefix'] + name] = value
+            prefixed_name = self.__dict__['prefix'] + name
+            self.__dict__['annotations'][prefixed_name] = value
 
+
+@provider(ISchemaAwareFactory)
 class AnnotationStorage(object):
     """Behavior adapter factory class for storing data in annotations.
     """
@@ -51,6 +54,4 @@ class AnnotationStorage(object):
         self.__component_adapts__ = (IAnnotatable,)
 
     def __call__(self, context):
-         return AnnotationsFactoryImpl(context, self.schema)
-
-alsoProvides(AnnotationStorage, ISchemaAwareFactory)
+        return AnnotationsFactoryImpl(context, self.schema)

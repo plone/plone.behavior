@@ -1,7 +1,8 @@
+# -*- coding: utf-8 -*-
+from zope import schema
 from zope.interface import Interface
 from zope.interface.interfaces import IInterface
 
-from zope import schema
 
 class IBehaviorAssignable(Interface):
     """An object will be adapted to this interface to determine if it supports
@@ -20,33 +21,46 @@ class IBehaviorAssignable(Interface):
         """Return an iterable of all the IBehaviors supported by the context.
         """
 
+
 class IBehavior(Interface):
     """A description of a behavior. These should be registered as named
     utilities. There should also be an adapter factory registered, probably
     using IBehaviorAdapterFactory.
     """
 
-    title = schema.TextLine(title=u"Short title of the behavior",
-                            required=True)
+    title = schema.TextLine(
+        title=u"Short title of the behavior",
+        required=True
+    )
 
-    description = schema.Text(title=u"Longer description of the behavior",
-                              required=False)
+    description = schema.Text(
+        title=u"Longer description of the behavior",
+        required=False
+    )
 
-    interface = schema.Object(title=u"Interface describing this behavior",
-                              required=True,
-                              schema=IInterface)
+    interface = schema.Object(
+        title=u"Interface describing this behavior",
+        required=True,
+        schema=IInterface
+    )
 
-    marker = schema.Object(title=u"Marker interface for objects sporting this behavior",
-                            description=u"Due to the persistent nature of marker interfaces, " +
-                                        u"you should only use this if you really need it, e.g. " +
-                                        u"to support specific view or viewlet registrations. " +
-                                        u"Subtypes will typically be set when an object is created",
-                            required=False,
-                            schema=IInterface)
+    marker = schema.Object(
+        title=u"Marker interface for objects sporting this behavior",
+        description=u"Due to the persistent nature of marker interfaces, "
+                    u"you should only use this if you really need it, e.g. "
+                    u"to support specific view or viewlet registrations. "
+                    u"Subtypes will typically be set when an object is "
+                    u"created",
+        required=False,
+        schema=IInterface
+    )
 
-    factory = schema.Object(title=u"An adapter factory for the behavior",
-                            required=True,
-                            schema=Interface)
+    factory = schema.Object(
+        title=u"An adapter factory for the behavior",
+        required=True,
+        schema=Interface
+    )
+
 
 class IBehaviorAdapterFactory(Interface):
     """An adapter factory that wraps a given behavior's own factory. By
@@ -72,6 +86,7 @@ class IBehaviorAdapterFactory(Interface):
         IBehaviorAssignable(context).supports(self.behavior.interface) returns
         True.
         """
+
 
 class ISchemaAwareFactory(Interface):
     """Marker interface for factories that should be initialised with a
