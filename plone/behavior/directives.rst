@@ -267,19 +267,21 @@ declaration on the factory.
 
 Test registration lookup helper utility.
 
-    >>> from plone.behavior.registration import lookup_behavior
-    >>> lookup_behavior()
+    >>> from plone.behavior.registration import lookup_behavior_registration
+    >>> lookup_behavior_registration()
     Traceback (most recent call last):
       ...
     ValueError: Either ``name`` or ``identifier`` must be given
 
-    >>> lookup_behavior('inexistent')
+    >>> lookup_behavior_registration('inexistent')
     Traceback (most recent call last):
       ...
     BehaviorRegistrationNotFound: inexistent
 
-    >>> lookup_behavior('adapter_behavior')
+    >>> lookup_behavior_registration('adapter_behavior')
     <BehaviorRegistration for plone.behavior.tests.IAdapterBehavior>
 
-    >>> lookup_behavior(identifier='plone.behavior.tests.IAdapterBehavior')
+    >>> lookup_behavior_registration(
+    ...     identifier='plone.behavior.tests.IAdapterBehavior'
+    ... )
     <BehaviorRegistration for plone.behavior.tests.IAdapterBehavior>

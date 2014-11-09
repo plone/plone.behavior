@@ -6,7 +6,8 @@ Changelog
 ----------------
 
 * Add name to behavior directive. This name can be used to lookup behavior
-  registrations by new plone.behaviors.registration.lookup_behavior function.
+  registrations by
+  new plone.behaviors.registration.lookup_behavior_registration function.
   [rnixx]
 
 - Added more documentation, simplified code in directive, added a warning if

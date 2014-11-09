@@ -28,7 +28,7 @@ class BehaviorRegistrationNotFound(Exception):
     """
 
 
-def lookup_behavior(name=None, identifier=None):
+def lookup_behavior_registration(name=None, identifier=None):
     """Lookup behavior registration either by name or interface identifier.
 
     ``ValueError`` is thrown if function call is incomplete.
