@@ -2,21 +2,23 @@
 Changelog
 =========
 
-1.0.4 (unreleased)
-------------------
+1.1 (unreleased)
+----------------
+
+* Add name to behavior directive. This name can be used to lookup behavior
+  registrations by new plone.behaviors.registration.lookup_behavior function.
+  [rnixx]
 
 - Added more documentation, simplified code in directive, added a warning if
   ``for`` is given w/o ``factory``.
   [jensens]
 
-
 1.0.3 (2015-04-29)
 ------------------
 
-- Code modernization: utf-header, pep8, rst-files, adapter/implementer
+* Code modernization: utf-header, pep8, rst-files, adapter/implementer
   decorators, ...
   [jensens]
-
 
 1.0.2 (2013-01-17)
 ------------------

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from plone.behavior import logger
 from plone.behavior.factory import BehaviorAdapterFactory
 from plone.behavior.interfaces import IBehavior
 from plone.behavior.interfaces import ISchemaAwareFactory
@@ -8,16 +9,23 @@ from zope.component.zcml import utility
 from zope.configuration import fields as configuration_fields
 from zope.configuration.exceptions import ConfigurationError
 from zope.interface import Interface
-import logging
-
-logger = logging.getLogger(__name__)
+from zope.schema import TextLine
 
 
 class IBehaviorDirective(Interface):
-    """Directive which registers a new behavior type (a global, named
-    utility) and associated behavior adapter factory (a global, unnamed
-    adapter)
+    """Directive which registers a new behavior type.
+
+    The registration consists of:
+
+        * a global named utility registered by interface identifier
+        * a global named utility registered by lookup name
+        * an associated global and unnamed behavior adapter
     """
+
+    name = TextLine(
+        title=u"Name",
+        description=u"Convenience lookup name for this behavior",
+        required=False)
 
     title = configuration_fields.MessageID(
         title=u"Title",
@@ -54,9 +62,8 @@ class IBehaviorDirective(Interface):
         required=False)
 
 
-def behaviorDirective(_context, title, provides, description=None, marker=None,
-                      factory=None, for_=None):
-
+def behaviorDirective(_context, title, provides, name=None, description=None,
+                      marker=None, factory=None, for_=None):
     if marker is None and factory is None:
         marker = provides
 
@@ -71,18 +78,24 @@ def behaviorDirective(_context, title, provides, description=None, marker=None,
     if factory is not None and ISchemaAwareFactory.providedBy(factory):
         factory = factory(provides)
 
+    # if no name is given take the dotted path given as identifier
+    if name is None:
+        name = provides.__identifier__
+
     registration = BehaviorRegistration(
         title=title,
         description=description,
         interface=provides,
         marker=marker,
-        factory=factory
+        factory=factory,
+        name=name,
     )
 
+    # behavior registration by provides interface identifier
     utility(
         _context,
         provides=IBehavior,
-        name=provides.__identifier__,
+        name=name,
         component=registration
     )
 
@@ -102,7 +115,7 @@ def behaviorDirective(_context, title, provides, description=None, marker=None,
         adapts = getattr(factory, '__component_adapts__', None) or [Interface]
         if len(adapts) != 1:
             raise ConfigurationError(
-                u"The factory cannot be declared a multi-adapter."
+                u"The factory can not be declared as multi-adapter."
             )
         for_ = adapts[0]
 

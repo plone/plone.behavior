@@ -73,6 +73,7 @@ The simplest way to do that is to load the ``meta.zcml`` file from this package 
       <include package="plone.behavior" file="meta.zcml" />
 
       <plone:behavior
+          name="locking_support"
           title="Locking support"
           description="Optional object-level locking"
           provides=".interfaces.ILockingSupport"
