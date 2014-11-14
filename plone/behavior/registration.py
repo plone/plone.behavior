@@ -4,6 +4,17 @@ from zope.interface import implementer
 from zope.component import getUtility
 from zope.component import ComponentLookupError
 
+import textwrap
+
+REGISTRATION_REPR = """\
+<{class} {name} at {id}
+  schema: {identifier}
+  marker: {marker}
+  factory: {factory}
+  title: {title}
+  {description}
+>"""
+
 
 @implementer(IBehavior)
 class BehaviorRegistration(object):
@@ -18,9 +29,26 @@ class BehaviorRegistration(object):
         self.name = name
 
     def __repr__(self):
-        return "<BehaviorRegistration for {0}>".format(
-            self.interface.__identifier__
-        )
+        if self.marker is not None:
+            marker_info = self.marker.__identifier__
+        elif self.marker is not None and self.marker is not self.interface:
+            marker_info = '(uses schema as marker)'
+        else:
+            marker_info = '(no marker is set)'
+        info = {
+            'class': self.__class__.__name__,
+            'id': id(self),
+            'name': self.name or '(unique name not set)',
+            'identifier': self.interface.__identifier__,
+            'marker': marker_info,
+            'factory': unicode(self.factory),
+            'title': self.title or '(no title)',
+            'description': textwrap.fill(
+                self.description or '(no description)',
+                subsequent_indent='  '
+            )
+        }
+        return REGISTRATION_REPR.format(**info)
 
 
 class BehaviorRegistrationNotFound(Exception):

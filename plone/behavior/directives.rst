@@ -101,8 +101,13 @@ With this in place, the behaviors should be registered, e.g:
 
     >>> from plone.behavior.interfaces import IBehavior
     >>> sorted([u for u in sm.registeredUtilities() if u.name == u"plone.behavior.tests.IAdapterBehavior"]) # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
-    [UtilityRegistration(..., IBehavior, 'plone.behavior.tests.IAdapterBehavior', <BehaviorRegistration for plone.behavior.tests.IAdapterBehavior>,...),
-     UtilityRegistration(..., IInterface, 'plone.behavior.tests.IAdapterBehavior', IAdapterBehavior,...)]
+    [UtilityRegistration(<BaseGlobalComponents base>, IBehavior, 'plone.behavior.tests.IAdapterBehavior', <BehaviorRegistration adapter_behavior at ...
+      schema: plone.behavior.tests.IAdapterBehavior
+      marker: (no marker is set)
+      factory: <class 'plone.behavior.tests.AdapterBehavior'>
+      title: Adapter behavior
+      A basic adapter behavior
+    >, None, u''), UtilityRegistration(<BaseGlobalComponents base>, IInterface, 'plone.behavior.tests.IAdapterBehavior', IAdapterBehavior, None, '')]
 
     >>> from plone.behavior.tests import IAdapterBehavior
     >>> [a for a in sm.registeredAdapters() if a.provided == IAdapterBehavior]  # doctest: +ELLIPSIS
@@ -278,10 +283,22 @@ Test registration lookup helper utility.
       ...
     BehaviorRegistrationNotFound: inexistent
 
-    >>> lookup_behavior_registration('adapter_behavior')
-    <BehaviorRegistration for plone.behavior.tests.IAdapterBehavior>
+    >>> lookup_behavior_registration('adapter_behavior')  # doctest: +ELLIPSIS
+    <BehaviorRegistration adapter_behavior at ...
+      schema: plone.behavior.tests.IAdapterBehavior
+      marker: (no marker is set)
+      factory: <class 'plone.behavior.tests.AdapterBehavior'>
+      title: Adapter behavior
+      A basic adapter behavior
+    >
 
     >>> lookup_behavior_registration(
     ...     identifier='plone.behavior.tests.IAdapterBehavior'
-    ... )
-    <BehaviorRegistration for plone.behavior.tests.IAdapterBehavior>
+    ... )  # doctest: +ELLIPSIS
+    <BehaviorRegistration adapter_behavior at ...
+      schema: plone.behavior.tests.IAdapterBehavior
+      marker: (no marker is set)
+      factory: <class 'plone.behavior.tests.AdapterBehavior'>
+      title: Adapter behavior
+      A basic adapter behavior
+    >
