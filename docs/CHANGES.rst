@@ -2,7 +2,7 @@
 Changelog
 =========
 
-1.0.3 (unreleased)
+1.0.3 (2015-04-29)
 ------------------
 
 - Code modernization: utf-header, pep8, rst-files, adapter/implementer 
