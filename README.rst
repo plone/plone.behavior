@@ -19,8 +19,7 @@ Requirements
 
 This package comes with support for registering behaviors and factories.
 It does not, however, implement the policy for determining what behaviors are enabled on a particular object at a particular time.
-That decision is deferred to an ``IBehaviorAssignable`` adapter, which must be implemented.
-I.e. the ``plone.dexterity`` package implements this.
+That decision is deferred to an ``IBehaviorAssignable`` adapter, which must be implemented (``plone.dexterity`` implements this).
 
 This package also does not directly support the adding of marker interfaces to instances.
 To do that, you can either use an event handler to mark an object when it is created, or a dynamic __providedBy__ descriptor that does the lookup on the fly (but you probably want some caching).
@@ -62,7 +61,7 @@ the type of context being adapted directly. For example::
         def unlock(self):
             # do something
 
-This interface (which describes the type of behavior) and class (which describes the implementation of the behavior) then need to be registered.
+This interface (which describes the type of behavior) and class (which describes the implementation of the behavior) then needs to be registered.
 
 The simplest way to do that is to load the ``meta.zcml`` file from this package and use ZCML::
 
@@ -130,15 +129,14 @@ The directive supports the attributes:
     If no factory is given, the behavior context is assumed to provide the interface given by ``provides`` itself.
 
     If factory provides ``plone.behavior.interfaces.ISchemaAwareFactory`` the factory is assumed to be a callable.
+    ``ISchemaAwareFactory`` is an interface for factories that should be initialised with a schema.
     It is called with the value given in ``provides`` as the only argument.
-    The value returned is then used as the factory.
+    The value returned is then used as the factory, another callable that can create appropriate behavior factories on demand.
 
-    ``plone.behavior.interfaces.ISchemaAwareFactory`` is a marker interface for factories that should be initialised with a schema.
-    Its expected to return another callable that can create appropriate behavior factories on demand.
 
 ``for``
     The type of object to register the conditional adapter factory for (optional).
-    Must be skipped is no ``factory`` is given.
+    Must be omitted is no ``factory`` is given.
 
     The default is either to auto-detect what the factory adapts (i.e. using the ``@adapter`` decorator) or to fall back to ``zope.interface.Interface`` (also written as ``*`` in ZCML).
 

@@ -99,7 +99,7 @@ def behaviorDirective(_context, title, provides, description=None, marker=None,
     if for_ is None:
         # Attempt to guess the factory's adapted interface and use it as
         # the 'for_'.
-        # Fallback to '*' (=Interface), even if factory is None.
+        # Fallback to '*' (=Interface).
         adapts = getattr(factory, '__component_adapts__', None) or [Interface]
         if len(adapts) != 1:
             raise ConfigurationError(
