@@ -74,16 +74,16 @@ def test_suite():
     return unittest.TestSuite((
 
         doctest.DocFileSuite(
-            'behaviors.txt',
+            'behaviors.rst',
             tearDown=zope.component.testing.tearDown
         ),
         doctest.DocFileSuite(
-            'directives.txt',
+            'directives.rst',
             setUp=zope.component.testing.setUp,
             tearDown=zope.component.testing.tearDown
         ),
         doctest.DocFileSuite(
-            'annotation.txt',
+            'annotation.rst',
             setUp=zope.component.testing.setUp,
             tearDown=zope.component.testing.tearDown),
         )
