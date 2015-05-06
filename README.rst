@@ -152,6 +152,7 @@ Example usage, given
 - a ``MySchemaAwareFactory`` class implementing ``IMyBehavior`` and ``plone.behavior.interfaces.ISchemaAwareFactory``,
 - an ``IMyType`` intented to be used as ``for``.
 - some ``typed_context`` (some arbitary object) which is ``IBehaviorAssignable`` and provides ``IMyType``,
+- an ``MyTypedFactory`` class implementing ``IMyBehavior`` and adapting ``IMyType``,
 
 Title and description is trivial, so we dont cover it here in the explanantion.
 To simplify it, we assume ``context`` ``IBehaviorAssignable`` always supports the behavior.
@@ -198,7 +199,20 @@ This may lead to confusion, so now better with a ``marker``::
 - ``context`` provides ``IMyMarker``,
 - ``MyFactory`` instance provides ``IMyBehavior``,
 
-**Example 4** - the behavior should be restricted to the ``typed_context``::
+**Example 4** - like example 3 but with an ``MySchemaAwareFactory``::
+
+    <plone:behavior
+        title="Example 1"
+        provides="IMyBehavior"
+        marker="IMyMarker"
+        factory="MySchemaAwareFactory"
+    />
+
+- with ``behavior = IMyBehavior(context)`` some factory instance is returned as a result from calling a ``MySchemaAwareFactory`` instance with ``IMyBehavior`` as argument,
+- ``context`` provides ``IMyMarker``,
+- ``MyFactory`` instance provides ``IMyBehavior``,
+
+**Example 5** - the behavior should be restricted to the ``typed_context``::
 
     <plone:behavior
         title="Example 1"
@@ -211,8 +225,22 @@ This may lead to confusion, so now better with a ``marker``::
 - with ``behavior = IMyBehavior(context, None)`` it could not adapt and ``behavior`` is ``None``,
 - with ``behavior = IMyBehavior(typed_context)`` a ``MyFactory`` instance is returned,
 - ``context`` provides ``IMyMarker``,
-- ``MyFactory`` provides implements ``IMyBehavior``,
+- ``MyFactory`` provides ``IMyBehavior``,
 
+**Example 6** - the behavior should be restricted to the ``typed_context`` by auto-detection.
+The ``MyTypedFactory`` class adapts ``IMyType`` using a class decorator ``@adapter(IMyType)``::
+
+    <plone:behavior
+        title="Example 1"
+        provides="IMyBehavior"
+        marker="IMyMarker"
+        factory="MyTypedFactory"
+    />
+
+- with ``behavior = IMyBehavior(context, None)`` it could not adapt and ``behavior`` is ``None``,
+- with ``behavior = IMyBehavior(typed_context)`` a ``MyFactory`` instance is returned,
+- ``context`` provides ``IMyMarker``,
+- ``MyFactory`` instance provides ``IMyBehavior``,
 
 
 Further Reading
