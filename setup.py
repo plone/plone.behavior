@@ -5,9 +5,6 @@ version = '1.0.4.dev0'
 desc = "Infrastructure for maintaining a registry of available behaviors"
 doc_files = [
     "README.rst",
-    os.path.join("plone", "behavior", "behaviors.txt"),
-    os.path.join("plone", "behavior", "directives.txt"),
-    os.path.join("plone", "behavior", "annotation.txt"),
     os.path.join("docs", "CHANGES.rst"),
 ]
 longdesc = '\n'.join([open(_).read() for _ in doc_files])

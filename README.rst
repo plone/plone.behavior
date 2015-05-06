@@ -220,4 +220,4 @@ This may lead to confusion, so now better with a ``marker``::
 Further Reading
 ---------------
 
-For more details please read the doctests in ``behavior.rst``, ``directives.rst`` and ``annotation.rst``.
+For more details please read the doctests in the source code: ``behavior.rst``, ``directives.rst`` and ``annotation.rst``.
