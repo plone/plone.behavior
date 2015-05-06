@@ -8,6 +8,9 @@ from zope.component.zcml import utility
 from zope.configuration import fields as configuration_fields
 from zope.configuration.exceptions import ConfigurationError
 from zope.interface import Interface
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class IBehaviorDirective(Interface):
@@ -87,8 +90,9 @@ def behaviorDirective(_context, title, provides, description=None, marker=None,
 
     if factory is None:
         if for_ is not None:
-            raise ConfigurationError(
-               u"You cannot specify 'for' if no 'factory' is given."
+            logger.warn(
+                u"Specifing 'for' in behavior '{0}' if no 'factory' is given "
+                u"has no effect and is superfluos.".format(title)
             )
         return
 
