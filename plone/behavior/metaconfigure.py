@@ -34,8 +34,7 @@ class IBehaviorDirective(Interface):
 
     marker = configuration_fields.GlobalInterface(
         title=u"A marker interface to be applied by the behavior",
-        description=u"If provides is given and factory is not given, then "
-                    u"this is optional",
+        description=u"If factory is not given, then this is optional",
         required=False)
 
     factory = configuration_fields.GlobalObject(
@@ -51,13 +50,14 @@ class IBehaviorDirective(Interface):
                     u"factory for zope.interface.Interface",
         required=False)
 
+
 def behaviorDirective(_context, title, provides, description=None, marker=None,
                       factory=None, for_=None):
 
     if marker is None and factory is None:
         marker = provides
 
-    if factory is None and marker is not None and marker is not provides:
+    if marker is not None and factory is None and marker is not provides:
         raise ConfigurationError(
             u"You cannot specify a different 'marker' and 'provides' if "
             u"there is no adapter factory for the provided interface."
@@ -67,20 +67,6 @@ def behaviorDirective(_context, title, provides, description=None, marker=None,
     # this here so that the for_ interface may take this into account.
     if factory is not None and ISchemaAwareFactory.providedBy(factory):
         factory = factory(provides)
-
-    # Attempt to guess the factory's adapted interface and use it as the for_
-    if for_ is None and factory is not None:
-        adapts = getattr(factory, '__component_adapts__', None)
-        if adapts:
-            if len(adapts) != 1:
-                raise ConfigurationError(
-                    u"The factory cannot be declared a multi-adapter."
-                )
-            for_ = adapts[0]
-        else:
-            for_ = Interface
-    elif for_ is None:
-        for_ = Interface
 
     registration = BehaviorRegistration(
         title=title,
@@ -99,10 +85,27 @@ def behaviorDirective(_context, title, provides, description=None, marker=None,
         component=registration
     )
 
-    if factory is not None:
-        adapter(
-            _context,
-            factory=(adapter_factory,),
-            provides=provides,
-            for_=(for_,)
-        )
+    if factory is None:
+        if for_ is not None:
+            raise ConfigurationError(
+               u"You cannot specify 'for' if no 'factory' is given."
+            )
+        return
+
+    if for_ is None:
+        # Attempt to guess the factory's adapted interface and use it as
+        # the 'for_'.
+        # Fallback to '*' (=Interface), even if factory is None.
+        adapts = getattr(factory, '__component_adapts__', None) or [Interface]
+        if len(adapts) != 1:
+            raise ConfigurationError(
+                u"The factory cannot be declared a multi-adapter."
+            )
+        for_ = adapts[0]
+
+    adapter(
+        _context,
+        factory=(adapter_factory,),
+        provides=provides,
+        for_=(for_,)
+    )
