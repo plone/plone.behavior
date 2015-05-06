@@ -5,13 +5,15 @@ Changelog
 1.0.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Added more documentation, simplified code in directive, added a warning if
+  ``for`` is given w/o ``factory``.
+  [jensens]
 
 
 1.0.3 (2015-04-29)
 ------------------
 
-- Code modernization: utf-header, pep8, rst-files, adapter/implementer 
+- Code modernization: utf-header, pep8, rst-files, adapter/implementer
   decorators, ...
   [jensens]
 
