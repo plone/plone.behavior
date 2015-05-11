@@ -78,10 +78,6 @@ def behaviorDirective(_context, title, provides, name=None, description=None,
     if factory is not None and ISchemaAwareFactory.providedBy(factory):
         factory = factory(provides)
 
-    # if no name is given take the dotted path given as identifier
-    if name is None:
-        name = provides.__identifier__
-
     registration = BehaviorRegistration(
         title=title,
         description=description,
@@ -95,9 +91,18 @@ def behaviorDirective(_context, title, provides, name=None, description=None,
     utility(
         _context,
         provides=IBehavior,
-        name=name,
+        name=provides.__identifier__,
         component=registration
     )
+
+    if name is not None:
+        # for convinience we register with a given name
+        utility(
+            _context,
+            provides=IBehavior,
+            name=name,
+            component=registration
+        )
 
     if factory is None:
         if for_ is not None:
