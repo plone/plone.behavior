@@ -50,7 +50,7 @@ Example
 -------
 
 As an example, let's create a basic behavior that's described by the
-interface ILockingSupport:
+interface ILockingSupport::
 
     >>> from zope.interface import implements
     >>> from zope.interface import Interface
@@ -75,7 +75,7 @@ interface ILockingSupport:
 
 The availability of this new behavior is indicated by registering a named
 utility providing IBehavior. There is a default implementation of this
-interface that makes this easy:
+interface that makes this easy::
 
     >>> from plone.behavior.registration import BehaviorRegistration
     >>> registration = BehaviorRegistration(
@@ -102,6 +102,8 @@ the behavior isn't currently enabled for the context.
 To get these semantics, we can use the BehaviorAdapterFactory helper
 class.
 
+::
+
     >>> from plone.behavior.factory import BehaviorAdapterFactory
     >>> factory = BehaviorAdapterFactory(registration)
 
@@ -120,7 +122,7 @@ ILockingSupport, if:
     says it is.
 
 Right now, neither of those things are true, so we'll get a TypeError when
-trying to adapt:
+trying to adapt::
 
     >>> class IContextType(Interface): pass
 
@@ -135,7 +137,7 @@ trying to adapt:
     ...
     TypeError: ('Could not adapt', ...)
 
-Of course, we are more likely to want to code defensively:
+Of course, we are more likely to want to code defensively::
 
     >>> behavior = ILockingSupport(context, None)
     >>> behavior is None
@@ -145,9 +147,11 @@ For the behavior  to work, we need to define an IBehaviorAssignable adapter.
 For the purposes of this test, we'll maintain a simple, global registry that
 maps classes to a list of enabled behavior interfaces.
 
+::
+
     >>> BEHAVIORS = {}
 
-The adapter can thus be registered like this:
+The adapter can thus be registered like this::
 
     >>> from plone.behavior.interfaces import IBehavior, IBehaviorAssignable
     >>> from zope.component import adapts, getUtility
@@ -177,15 +181,19 @@ At this point, we know that the context support behavior assignment (since
 there is an adapter for it), but it's not yet enabled, so we still can't
 adapt.
 
+::
+
     >>> behavior = ILockingSupport(context, None)
     >>> behavior is None
     True
 
 However, if we enable the behavior for this type...
 
+::
+
     >>> BEHAVIORS.setdefault(SomeContext, set()).add(ILockingSupport)
 
-...then we can adapt and use the behavior adapter:
+...then we can adapt and use the behavior adapter::
 
     >>> behavior = ILockingSupport(context, None)
     >>> behavior is None
@@ -231,11 +239,15 @@ enable an event handler for every type of object.
 For the purposes of this test, we will simulate the event handler by calling
 it directly.
 
+::
+
     >>> from plone.behavior.markers import applyMarkers
     >>> from zope.lifecycleevent import ObjectCreatedEvent
 
 Let us create another behavior. This time, we'll provide a marker interface
 as well.
+
+::
 
     >>> from zope import schema
     >>> class ITaggable(Interface):
@@ -261,6 +273,8 @@ interface explicitly. In real life, of course, we'd be more likely to use the
 <plone:behavior /> ZCML directive with the 'marker' attribute. See
 directives.txt for more details.
 
+::
+
     >>> from plone.behavior.registration import BehaviorRegistration
     >>> registration = BehaviorRegistration(
     ...     title=u"Tagging support",
@@ -277,6 +291,8 @@ directives.txt for more details.
 Let us now create a new object without the behavior being enabled. The marker
 interface should not be applied.
 
+::
+
     >>> context1 = SomeContext()
     >>> ITagging(context1, None) is not None
     False
@@ -290,6 +306,8 @@ interface should not be applied.
 
 If we now turn on the behavior, the marker should be applied when the event
 is fired.
+
+::
 
     >>> BEHAVIORS.setdefault(SomeContext, set()).add(ITagging)
 
@@ -305,7 +323,7 @@ is fired.
     True
 
 Note that since this is applied per-instance, old instances do not get the
-marker interface automatically:
+marker interface automatically::
 
     >>> ITaggable.providedBy(context1)
     False
@@ -314,7 +332,7 @@ It may be useful to mark the content with the behavior interface directly for
 cases where the marker is all that's needed for the behavior to work. In
 these cases no factory is needed, because the object already provides the
 behavior directly as indicated by the marker. Note that the same interface
-is used as the 'interface' and 'marker':
+is used as the ``interface`` and ``marker``::
 
     >>> class IMarkerBehavior(Interface):
     ...     pass
@@ -334,7 +352,7 @@ is used as the 'interface' and 'marker':
     >>> BEHAVIORS.setdefault(SomeContext, set()).add(IMarkerBehavior)
 
 When we adapt an object using this behavior, we get the object itself back,
-since it implements our behavior interface directly:
+since it implements our behavior interface directly::
 
     >>> context = SomeContext()
     >>> IMarkerBehavior.providedBy(context)
