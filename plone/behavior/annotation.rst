@@ -2,14 +2,14 @@
 plone.behavior: Annotation storage
 ==================================
 
-plone.behavior comes with a standard behavior factory that can be used to
+``plone.behavior`` comes with a standard behavior factory that can be used to
 store the data of a schema interface in annotations. This means that it is
 possible to create a simple "data only" behavior with just an interface.
 
-We have created such an interface in plone.behavior.tests, called
-IAnnotationStored. It has a single field, 'some_field'.
+We have created such an interface in ``plone.behavior.tests``, called
+``IAnnotationStored``. It has a single field, 'some_field'.
 
-Let's show how this may be registered in ZCML.
+Let's show how this may be registered in ZCML::
 
     >>> configuration = """\
     ... <configure
@@ -35,18 +35,24 @@ Let's show how this may be registered in ZCML.
     >>> xmlconfig.xmlconfig(StringIO(configuration))
 
 Let us now test this. First, we'll need an annotatable context and an
-IBehaviorAssignable adapter. See behaviors.txt for more details.
+``IBehaviorAssignable`` adapter. See ``behaviors.rst`` for more details::
 
-    >>> from zope.interface import Interface, implements, alsoProvides
-    >>> from zope.component import provideAdapter, adapts, getUtility
-    >>> from zope.annotation.interfaces import IAttributeAnnotatable, IAnnotations
-    >>> from plone.behavior.interfaces import IBehavior, IBehaviorAssignable
+    >>> from plone.behavior.interfaces import  IBehaviorAssignable
+    >>> from plone.behavior.interfaces import IBehavior
     >>> from plone.behavior.tests import IAnnotationStored
-
+    >>> from zope.annotation.interfaces import IAnnotations
+    >>> from zope.annotation.interfaces import IAttributeAnnotatable
+    >>> from zope.component import adapter
+    >>> from zope.component import getUtility
+    >>> from zope.component import provideAdapter
+    >>> from zope.interface import Interface
+    >>> from zope.interface import alsoProvides
+    >>> from zope.interface import implementer
     >>> BEHAVIORS = {}
-    >>> class TestingBehaviorAssignable(object):
-    ...     implements(IBehaviorAssignable)
-    ...     adapts(Interface)
+
+    >>> @implementer(IBehaviorAssignable)
+    ... @adapter(Interface)
+    ... class TestingBehaviorAssignable(object):
     ...
     ...     def __init__(self, context):
     ...         self.context = context
@@ -62,38 +68,39 @@ IBehaviorAssignable adapter. See behaviors.txt for more details.
 
     >>> provideAdapter(TestingBehaviorAssignable)
 
-    >>> class Context(object):
-    ...     implements(IAttributeAnnotatable)
+    >>> @implementer(IAttributeAnnotatable)
+    ... class Context(object):
+    ...     pass
     >>> BEHAVIORS[Context] = [IAnnotationStored]
 
     >>> context = Context()
 
-We can now adapt the context to our new interface.
+We can now adapt the context to our new interface::
 
     >>> adapted = IAnnotationStored(context)
 
-Before we've set anything, we get the field's missing_value
+Before we've set anything, we get the field's missing_value::
 
     >>> adapted.some_field is IAnnotationStored['some_field'].missing_value
     True
 
-Let's look at the annotations also:
+Let's look at the annotations also::
 
     >>> sorted(IAnnotations(context).items())
     []
 
-If we now set the value, it will be stored in annotations:
+If we now set the value, it will be stored in annotations::
 
     >>> adapted.some_field = u'New value'
     >>> sorted(IAnnotations(context).items())
     [('plone.behavior.tests.IAnnotationStored.some_field', u'New value')]
 
-And of course we can get it back again:
+And of course we can get it back again::
 
     >>> adapted.some_field
     u'New value'
 
-If we try to get some other field, we get an AttributeError:
+If we try to get some other field, we get an AttributeError::
 
     >>> adapted.bogus_field #doctest: +ELLIPSIS
     Traceback (most recent call last):
@@ -101,7 +108,7 @@ If we try to get some other field, we get an AttributeError:
     AttributeError: bogus_field
 
 Of course, we can still set and then get some value on the adapter factory
-itself, but it won't be persisted.
+itself, but it won't be persisted::
 
     >>> adapted.bogus_field = 123
     >>> adapted.bogus_field
