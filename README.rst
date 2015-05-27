@@ -89,6 +89,20 @@ After this is done you can adapt a context to ``ILockingSupport`` as normal::
     if locking is not None:
         locking.lock()
 
+The ``name`` is can be used for lookup instead of the full dotted name of the interface::
+
+    from plone.behavior.interfaces import IBehavior
+    from zope.component import getUtility
+
+    registration = getUtility(IBehavior, name='locking_support')
+
+We also have a helper function to achieve this::
+
+    from registration import lookup_behavior_registration
+
+    registration = lookup_behavior_registration(name='locking_support')
+
+
 You'll get an instance of ``LockingSupport`` if context can be adapted to ``IBehaviorAssignable`` (which, recall, is application specific),
 and if the implementation of ``IBehaviorAssignable`` says that this context supports this particular behavior.
 
@@ -120,6 +134,13 @@ The directive supports the attributes:
     An interface to which the behavior can be adapted.
     This is what the conditional adapter factory will be registered as providing (required).
 
+``name``
+    Convenience lookup name for this behavior (optional).
+    The behavior will be always registered under the dotted name of ``provides`` attribute.
+    This are usally long names. ``name`` is a short name for this.
+    If ``name`` is given it is registered additional with the name.
+    Anyway using short namespaces in ``name `` is recommended.
+
 ``marker``
     A marker interface to be applied by the behavior.
     If ``factory`` is not given, then this is optional and defaults to the value of ``provides``.
@@ -133,7 +154,6 @@ The directive supports the attributes:
     ``ISchemaAwareFactory`` is an interface for factories that should be initialised with a schema.
     It is called with the value given in ``provides`` as the only argument.
     The value returned is then used as the factory, another callable that can create appropriate behavior factories on demand.
-
 
 ``for``
     The type of object to register the conditional adapter factory for (optional).
@@ -155,7 +175,8 @@ Example usage, given
 - some ``typed_context`` (some arbitary object) which is ``IBehaviorAssignable`` and provides ``IMyType``,
 - an ``MyTypedFactory`` class implementing ``IMyBehavior`` and adapting ``IMyType``,
 
-Title and description is trivial, so we dont cover it here in the explanantion.
+``title`` and ``description`` is trivial, so we dont cover it here in the explanantion.
+We dont cover ``name`` too, because it's not having any effect in this usage.
 To simplify it, we assume ``context`` ``IBehaviorAssignable`` always supports the behavior.
 Also for simplifications sake we assume some magic applies the marker interface to ``context``
 I.e. both is done by ``plone.dexterity``.
