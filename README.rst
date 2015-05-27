@@ -138,8 +138,8 @@ The directive supports the attributes:
     Convenience lookup name for this behavior (optional).
     The behavior will be always registered under the dotted name of ``provides`` attribute.
     This are usally long names. ``name`` is a short name for this.
-    If ``name`` is given it is registered additional with the name.
-    Anyway using short namespaces in ``name `` is recommended.
+    If ``name`` is given the behavior is registered additional under it.
+    Anyway using short namespaces in ``name`` is recommended.
 
 ``marker``
     A marker interface to be applied by the behavior.
