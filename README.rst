@@ -89,7 +89,7 @@ After this is done you can adapt a context to ``ILockingSupport`` as normal::
     if locking is not None:
         locking.lock()
 
-The ``name`` is can be used for lookup instead of the full dotted name of the interface::
+The ``name`` can be used for lookup instead of the full dotted name of the interface::
 
     from plone.behavior.interfaces import IBehavior
     from zope.component import getUtility
