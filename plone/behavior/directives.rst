@@ -31,6 +31,7 @@ plone.behavior.tests:
     ...     <include package="plone.behavior" file="meta.zcml" />
     ...
     ...     <plone:behavior
+    ...         name="adapter_behavior"
     ...         title="Adapter behavior"
     ...         description="A basic adapter behavior"
     ...         provides=".tests.IAdapterBehavior"
@@ -38,6 +39,7 @@ plone.behavior.tests:
     ...         />
     ...
     ...     <plone:behavior
+    ...         name="context_restricted_behavior"
     ...         title="Context restricted behavior"
     ...         provides=".tests.IRestrictedAdapterBehavior"
     ...         factory=".tests.RestrictedAdapterBehavior"
@@ -45,23 +47,27 @@ plone.behavior.tests:
     ...         />
     ...
     ...     <plone:behavior
+    ...         name="factory_implied_context_restricted_behavior"
     ...         title="Factory-implied context restricted behavior"
     ...         provides=".tests.IImpliedRestrictionAdapterBehavior"
     ...         factory=".tests.ImpliedRestrictionAdapterBehavior"
     ...         />
     ...
     ...     <plone:behavior
+    ...         name="marker_interface_behavior"
     ...         title="Marker interface behavior"
     ...         provides=".tests.IMarkerBehavior"
     ...         />
     ...
     ...     <plone:behavior
+    ...         name="annotation_storage_behavior"
     ...         title="Annotation storage behavior"
     ...         provides=".tests.IAnnotationStored"
     ...         factory="plone.behavior.AnnotationStorage"
     ...         />
     ...
     ...     <plone:behavior
+    ...         name="marker_and_adapter"
     ...         title="Marker and adapter"
     ...         provides=".tests.IMarkerAndAdapterBehavior"
     ...         factory="plone.behavior.AnnotationStorage"
@@ -95,8 +101,13 @@ With this in place, the behaviors should be registered, e.g:
 
     >>> from plone.behavior.interfaces import IBehavior
     >>> sorted([u for u in sm.registeredUtilities() if u.name == u"plone.behavior.tests.IAdapterBehavior"]) # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
-    [UtilityRegistration(..., IBehavior, 'plone.behavior.tests.IAdapterBehavior', <BehaviorRegistration for plone.behavior.tests.IAdapterBehavior>,...),
-     UtilityRegistration(..., IInterface, 'plone.behavior.tests.IAdapterBehavior', IAdapterBehavior,...)]
+    [UtilityRegistration(<BaseGlobalComponents base>, IBehavior, 'plone.behavior.tests.IAdapterBehavior', <BehaviorRegistration adapter_behavior at ...
+      schema: plone.behavior.tests.IAdapterBehavior
+      marker: (no marker is set)
+      factory: <class 'plone.behavior.tests.AdapterBehavior'>
+      title: Adapter behavior
+      A basic adapter behavior
+    >, None, u''), UtilityRegistration(<BaseGlobalComponents base>, IInterface, 'plone.behavior.tests.IAdapterBehavior', IAdapterBehavior, None, '')]
 
     >>> from plone.behavior.tests import IAdapterBehavior
     >>> [a for a in sm.registeredAdapters() if a.provided == IAdapterBehavior]  # doctest: +ELLIPSIS
@@ -111,6 +122,9 @@ Let us test the various utilities and the underlying adapters more carefully.
 for any context.
 
     >>> dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IAdapterBehavior")
+    >>> dummy.name
+    u'adapter_behavior'
+
     >>> dummy.title
     u'Adapter behavior'
 
@@ -133,6 +147,9 @@ for any context.
 2) An adapter behavior with a factory and an explicit context restriction.
 
     >>> dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IRestrictedAdapterBehavior")
+    >>> dummy.name
+    u'context_restricted_behavior'
+
     >>> dummy.title
     u'Context restricted behavior'
 
@@ -156,6 +173,9 @@ for any context.
 declaration on the factory.
 
     >>> dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IImpliedRestrictionAdapterBehavior")
+    >>> dummy.name
+    u'factory_implied_context_restricted_behavior'
+
     >>> dummy.title
     u'Factory-implied context restricted behavior'
 
@@ -178,6 +198,9 @@ declaration on the factory.
 4) A behavior with a marker marker interface.
 
     >>> dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IMarkerBehavior")
+    >>> dummy.name
+    u'marker_interface_behavior'
+
     >>> dummy.title
     u'Marker interface behavior'
 
@@ -200,6 +223,9 @@ declaration on the factory.
 5) A behavior using the standard annotation factory
 
     >>> dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IAnnotationStored")
+    >>> dummy.name
+    u'annotation_storage_behavior'
+
     >>> dummy.title
     u'Annotation storage behavior'
 
@@ -222,6 +248,9 @@ declaration on the factory.
 6) A behavior providing a marker interface and using an adapter factory.
 
     >>> dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IMarkerAndAdapterBehavior")
+    >>> dummy.name
+    u'marker_and_adapter'
+
     >>> dummy.title
     u'Marker and adapter'
 
@@ -240,3 +269,36 @@ declaration on the factory.
     >>> from plone.behavior.tests import IMarkerAndAdapterBehavior
     >>> [a.required for a in sm.registeredAdapters() if a.provided == IMarkerAndAdapterBehavior][0]
     (<InterfaceClass zope.annotation.interfaces.IAnnotatable>,)
+
+Test registration lookup helper utility.
+
+    >>> from plone.behavior.registration import lookup_behavior_registration
+    >>> lookup_behavior_registration()
+    Traceback (most recent call last):
+      ...
+    ValueError: Either ``name`` or ``identifier`` must be given
+
+    >>> lookup_behavior_registration('inexistent')
+    Traceback (most recent call last):
+      ...
+    BehaviorRegistrationNotFound: inexistent
+
+    >>> lookup_behavior_registration('adapter_behavior')  # doctest: +ELLIPSIS
+    <BehaviorRegistration adapter_behavior at ...
+      schema: plone.behavior.tests.IAdapterBehavior
+      marker: (no marker is set)
+      factory: <class 'plone.behavior.tests.AdapterBehavior'>
+      title: Adapter behavior
+      A basic adapter behavior
+    >
+
+    >>> lookup_behavior_registration(
+    ...     identifier='plone.behavior.tests.IAdapterBehavior'
+    ... )  # doctest: +ELLIPSIS
+    <BehaviorRegistration adapter_behavior at ...
+      schema: plone.behavior.tests.IAdapterBehavior
+      marker: (no marker is set)
+      factory: <class 'plone.behavior.tests.AdapterBehavior'>
+      title: Adapter behavior
+      A basic adapter behavior
+    >

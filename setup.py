@@ -25,7 +25,7 @@ setup(
     keywords='Plone behavior registry',
     author='Martin Aspeli',
     author_email='optilude@gmail.com',
-    url='http://code.google.com/p/dexterity',
+    url='http://pypi.python.org/pypi/plone.dexterity',
     license='BSD',
     packages=find_packages(exclude=['ez_setup']),
     namespace_packages=['plone'],
@@ -33,11 +33,11 @@ setup(
     zip_safe=False,
     install_requires=[
         'setuptools',
+        'zope.annotation',
         'zope.component',
+        'zope.configuration',
         'zope.interface',
         'zope.schema',
-        'zope.annotation',
-        'zope.configuration',
     ],
     extras_require={
         'test': [],
