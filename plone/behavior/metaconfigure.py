@@ -107,7 +107,7 @@ def behaviorDirective(_context, title, provides, name=None, description=None,
     if factory is None:
         if for_ is not None:
             logger.warn(
-                u"Specifing 'for' in behavior '{0}' if no 'factory' is given "
+                u"Specifying 'for' in behavior '{0}' if no 'factory' is given "
                 u"has no effect and is superfluous.".format(title)
             )
         # w/o factory we're done here

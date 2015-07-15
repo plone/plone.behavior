@@ -5,6 +5,9 @@ Changelog
 1.1 (unreleased)
 ----------------
 
+* corrected typo in warning
+  [jensens]
+
 * Add name to behavior directive. This name can be used to lookup behavior
   registrations by
   new plone.behaviors.registration.lookup_behavior_registration function.
