@@ -2,7 +2,7 @@
 Changelog
 =========
 
-1.1 (unreleased)
+1.1 (2015-07-18)
 ----------------
 
 - Corrected typo in warning.
