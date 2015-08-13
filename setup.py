@@ -1,5 +1,4 @@
 from setuptools import setup, find_packages
-import os
 
 version = '1.1.1.dev0'
 desc = "Infrastructure for maintaining a registry of available behaviors"
@@ -15,12 +14,16 @@ setup(
     version=version,
     description=desc,
     long_description=longdesc,
-    # more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
+    # more strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
         "Framework :: Plone",
+        "Framework :: Plone :: 4.3",
+        "Framework :: Plone :: 5.0",
         "Programming Language :: Python",
+        "Programming Language :: Python :: 2.6",
+        "Programming Language :: Python :: 2.7",
         "Topic :: Software Development :: Libraries :: Python Modules",
-         "License :: OSI Approved :: BSD License",
+        "License :: OSI Approved :: BSD License",
     ],
     keywords='Plone behavior registry',
     author='Martin Aspeli',
