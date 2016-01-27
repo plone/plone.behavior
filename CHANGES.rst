@@ -11,7 +11,8 @@ New:
 
 Fixes:
 
-- *add item here*
+- Make doctest comparison more robust against zope.component __repr__ changes.
+  [thet]
 
 
 1.1 (2015-07-18)
