@@ -107,11 +107,11 @@ With this in place, the behaviors should be registered, e.g:
       factory: <class 'plone.behavior.tests.AdapterBehavior'>
       title: Adapter behavior
       A basic adapter behavior
-    >, None, u''), UtilityRegistration(<BaseGlobalComponents base>, IInterface, 'plone.behavior.tests.IAdapterBehavior', IAdapterBehavior, None, '')]
+    ...UtilityRegistration(<BaseGlobalComponents base>, IInterface, 'plone.behavior.tests.IAdapterBehavior', IAdapterBehavior, None, '')]
 
     >>> from plone.behavior.tests import IAdapterBehavior
     >>> [a for a in sm.registeredAdapters() if a.provided == IAdapterBehavior]  # doctest: +ELLIPSIS
-    [AdapterRegistration(..., [Interface], IAdapterBehavior, '', <plone.behavior.factory.BehaviorAdapterFactory object at ...>, ...)]
+    [AdapterRegistration(..., [Interface], IAdapterBehavior,..., <plone.behavior.factory.BehaviorAdapterFactory object at ...>, ...)]
 
 Let us test the various utilities and the underlying adapters more carefully.
 
