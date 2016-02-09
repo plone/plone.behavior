@@ -14,7 +14,7 @@ setup(
     version=version,
     description=desc,
     long_description=longdesc,
-    # more strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
+    # more strings from https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
         "Framework :: Plone",
         "Framework :: Plone :: 4.3",
@@ -28,7 +28,7 @@ setup(
     keywords='Plone behavior registry',
     author='Martin Aspeli',
     author_email='optilude@gmail.com',
-    url='http://pypi.python.org/pypi/plone.dexterity',
+    url='https://pypi.python.org/pypi/plone.dexterity',
     license='BSD',
     packages=find_packages(exclude=['ez_setup']),
     namespace_packages=['plone'],
