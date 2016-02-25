@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '1.1.1.dev0'
+version = '1.1.1'
 desc = "Infrastructure for maintaining a registry of available behaviors"
 doc_files = [
     "README.rst",
