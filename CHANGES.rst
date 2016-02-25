@@ -5,10 +5,6 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
-New:
-
-- *add item here*
-
 Fixes:
 
 - Make doctest comparison more robust against zope.component __repr__ changes.
