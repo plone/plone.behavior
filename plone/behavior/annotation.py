@@ -3,8 +3,8 @@ from plone.behavior.interfaces import ISchemaAwareFactory
 from zope.annotation.interfaces import IAnnotatable
 from zope.annotation.interfaces import IAnnotations
 from zope.component import adapter
-from zope.interface import provider
 from zope.interface import alsoProvides
+from zope.interface import provider
 
 
 @adapter(IAnnotatable)

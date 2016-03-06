@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from plone.behavior.interfaces import IBehavior
-from zope.interface import implementer
-from zope.component import getUtility
 from zope.component import ComponentLookupError
+from zope.component import getUtility
+from zope.interface import implementer
 
 import textwrap
+
 
 REGISTRATION_REPR = """\
 <{class} {name} at {id}

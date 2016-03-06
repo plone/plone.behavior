@@ -1,4 +1,6 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages
+from setuptools import setup
+
 
 version = '1.1.2.dev0'
 desc = "Infrastructure for maintaining a registry of available behaviors"
