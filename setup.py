@@ -30,7 +30,7 @@ setup(
     keywords='Plone behavior registry',
     author='Martin Aspeli',
     author_email='optilude@gmail.com',
-    url='https://pypi.python.org/pypi/plone.dexterity',
+    url='https://pypi.python.org/pypi/plone.behavior',
     license='BSD',
     packages=find_packages(exclude=['ez_setup']),
     namespace_packages=['plone'],
