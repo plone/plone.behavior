@@ -6,6 +6,12 @@ from zope.interface import implementer
 
 import textwrap
 
+import sys
+if sys.version_info >= (3,):
+    text_type = str
+else:
+    text_type = unicode
+
 
 REGISTRATION_REPR = """\
 <{class} {name} at {id}
@@ -42,7 +48,7 @@ class BehaviorRegistration(object):
             'name': self.name or '(unique name not set)',
             'identifier': self.interface.__identifier__,
             'marker': marker_info,
-            'factory': unicode(self.factory),
+            'factory': text_type(self.factory),
             'title': self.title or '(no title)',
             'description': textwrap.fill(
                 self.description or '(no description)',

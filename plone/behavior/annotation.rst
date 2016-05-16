@@ -11,7 +11,7 @@ We have created such an interface in ``plone.behavior.tests``, called
 
 Let's show how this may be registered in ZCML::
 
-    >>> configuration = """\
+    >>> configuration = u"""\
     ... <configure
     ...      xmlns="http://namespaces.zope.org/zope"
     ...      xmlns:plone="http://namespaces.plone.org/plone"
@@ -30,7 +30,7 @@ Let's show how this may be registered in ZCML::
     ... </configure>
     ... """
 
-    >>> from StringIO import StringIO
+    >>> from io import StringIO
     >>> from zope.configuration import xmlconfig
     >>> xmlconfig.xmlconfig(StringIO(configuration))
 
@@ -92,12 +92,15 @@ Let's look at the annotations also::
 If we now set the value, it will be stored in annotations::
 
     >>> adapted.some_field = u'New value'
-    >>> sorted(IAnnotations(context).items())
+    >>> sorted(IAnnotations(context).items())  # doctest: +SKIP_PYTHON_3
     [('plone.behavior.tests.IAnnotationStored.some_field', u'New value')]
+
+    >>> sorted(IAnnotations(context).items())  # doctest: +SKIP_PYTHON_2
+    [('plone.behavior.tests.IAnnotationStored.some_field', 'New value')]
 
 And of course we can get it back again::
 
-    >>> adapted.some_field
+    >>> adapted.some_field  # doctest: +IGNORE_U
     u'New value'
 
 If we try to get some other field, we get an AttributeError::

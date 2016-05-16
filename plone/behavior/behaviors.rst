@@ -52,7 +52,7 @@ Example
 As an example, let's create a basic behavior that's described by the
 interface ILockingSupport::
 
-    >>> from zope.interface import implements
+    >>> from zope.interface import implementer
     >>> from zope.interface import Interface
 
     >>> class ILockingSupport(Interface):
@@ -62,16 +62,16 @@ interface ILockingSupport::
     ...     def unlock():
     ...         "Unlock the context"
 
-    >>> class LockingSupport(object):
-    ...     implements(ILockingSupport)
+    >>> @implementer(ILockingSupport)
+    ... class LockingSupport(object):
     ...     def __init__(self, context):
     ...         self.context = context
     ...
     ...     def lock(self):
-    ...         print 'Locked', repr(self.context)
+    ...         print('Locked %s' % repr(self.context))
     ...
     ...     def unlock(self):
-    ...         print 'Unlocked', repr(self.context)
+    ...         print('Unlocked %s' % repr(self.context))
 
 The availability of this new behavior is indicated by registering a named
 utility providing IBehavior. There is a default implementation of this
@@ -126,8 +126,8 @@ trying to adapt::
 
     >>> class IContextType(Interface): pass
 
-    >>> class SomeContext(object):
-    ...     implements(IContextType)
+    >>> @implementer(IContextType)
+    ... class SomeContext(object):
     ...     def __repr__(self):
     ...         return "<sample context>"
 
@@ -154,11 +154,11 @@ maps classes to a list of enabled behavior interfaces.
 The adapter can thus be registered like this::
 
     >>> from plone.behavior.interfaces import IBehavior, IBehaviorAssignable
-    >>> from zope.component import adapts, getUtility
+    >>> from zope.component import adapter, getUtility
 
-    >>> class TestingBehaviorAssignable(object):
-    ...     implements(IBehaviorAssignable)
-    ...     adapts(Interface)
+    >>> @adapter(Interface)
+    ... @implementer(IBehaviorAssignable)
+    ... class TestingBehaviorAssignable(object):
     ...
     ...     def __init__(self, context):
     ...         self.context = context
@@ -257,8 +257,8 @@ as well.
     ...     tags = schema.List(title=u"Tags on this object",
     ...                        value_type=schema.TextLine(title=u"Tag"))
 
-    >>> class Tagging(object):
-    ...     implements(ITagging)
+    >>> @implementer(ITagging)
+    ... class Tagging(object):
     ...     def __init__(self, context):
     ...         self.context = context
     ...
