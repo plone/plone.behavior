@@ -21,7 +21,7 @@ plone.behavior.tests:
 
   * A behavior providing a marker interface and using an adapter factory.
 
-    >>> configuration = """\
+    >>> configuration = u"""\
     ... <configure
     ...      package="plone.behavior"
     ...      xmlns="http://namespaces.zope.org/zope"
@@ -93,7 +93,7 @@ Let's first verify that we don't have the dummy data registered already:
 We should now be able to load the sample configuration, which also includes the
 meta.zcml file from plone.behavior:
 
-    >>> from StringIO import StringIO
+    >>> from io import StringIO
     >>> from zope.configuration import xmlconfig
     >>> xmlconfig.xmlconfig(StringIO(configuration))
 
@@ -122,13 +122,13 @@ Let us test the various utilities and the underlying adapters more carefully.
 for any context.
 
     >>> dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IAdapterBehavior")
-    >>> dummy.name
+    >>> dummy.name  # doctest: +IGNORE_U
     u'adapter_behavior'
 
-    >>> dummy.title
+    >>> dummy.title  # doctest: +IGNORE_U
     u'Adapter behavior'
 
-    >>> dummy.description
+    >>> dummy.description  # doctest: +IGNORE_U
     u'A basic adapter behavior'
 
     >>> dummy.interface
@@ -147,10 +147,10 @@ for any context.
 2) An adapter behavior with a factory and an explicit context restriction.
 
     >>> dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IRestrictedAdapterBehavior")
-    >>> dummy.name
+    >>> dummy.name  # doctest: +IGNORE_U
     u'context_restricted_behavior'
 
-    >>> dummy.title
+    >>> dummy.title  # doctest: +IGNORE_U
     u'Context restricted behavior'
 
     >>> dummy.description is None
@@ -173,10 +173,10 @@ for any context.
 declaration on the factory.
 
     >>> dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IImpliedRestrictionAdapterBehavior")
-    >>> dummy.name
+    >>> dummy.name  # doctest: +IGNORE_U
     u'factory_implied_context_restricted_behavior'
 
-    >>> dummy.title
+    >>> dummy.title  # doctest: +IGNORE_U
     u'Factory-implied context restricted behavior'
 
     >>> dummy.description is None
@@ -198,10 +198,10 @@ declaration on the factory.
 4) A behavior with a marker marker interface.
 
     >>> dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IMarkerBehavior")
-    >>> dummy.name
+    >>> dummy.name  # doctest: +IGNORE_U
     u'marker_interface_behavior'
 
-    >>> dummy.title
+    >>> dummy.title  # doctest: +IGNORE_U
     u'Marker interface behavior'
 
     >>> dummy.description is None
@@ -223,10 +223,10 @@ declaration on the factory.
 5) A behavior using the standard annotation factory
 
     >>> dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IAnnotationStored")
-    >>> dummy.name
+    >>> dummy.name  # doctest: +IGNORE_U
     u'annotation_storage_behavior'
 
-    >>> dummy.title
+    >>> dummy.title  # doctest: +IGNORE_U
     u'Annotation storage behavior'
 
     >>> dummy.description is None
@@ -248,10 +248,10 @@ declaration on the factory.
 6) A behavior providing a marker interface and using an adapter factory.
 
     >>> dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IMarkerAndAdapterBehavior")
-    >>> dummy.name
+    >>> dummy.name   # doctest: +IGNORE_U
     u'marker_and_adapter'
 
-    >>> dummy.title
+    >>> dummy.title  # doctest: +IGNORE_U
     u'Marker and adapter'
 
     >>> dummy.description is None
@@ -278,10 +278,15 @@ Test registration lookup helper utility.
       ...
     ValueError: Either ``name`` or ``identifier`` must be given
 
-    >>> lookup_behavior_registration('inexistent')
+    >>> lookup_behavior_registration('inexistent')  # doctest: +SKIP_PYTHON_3
     Traceback (most recent call last):
       ...
     BehaviorRegistrationNotFound: inexistent
+
+    >>> lookup_behavior_registration('inexistent')  # doctest: +SKIP_PYTHON_2
+    Traceback (most recent call last):
+      ...
+    plone.behavior.registration.BehaviorRegistrationNotFound: inexistent
 
     >>> lookup_behavior_registration('adapter_behavior')  # doctest: +ELLIPSIS
     <BehaviorRegistration adapter_behavior at ...
