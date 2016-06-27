@@ -14,7 +14,10 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Add already introduced attribute ``name`` to interface IBehavior.
+  This was missing.
+  Also modernized other IBehavior interface descriptions a bit.
+  [jensens]
 
 
 1.1.3 (2016-11-09)

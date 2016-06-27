@@ -29,34 +29,41 @@ class IBehavior(Interface):
     """
 
     title = schema.TextLine(
-        title=u"Short title of the behavior",
+        title=u'Short title of the behavior',
         required=True
     )
 
     description = schema.Text(
-        title=u"Longer description of the behavior",
+        title=u'Longer description of the behavior',
+        required=False
+    )
+
+    name = schema.TextLine(
+        title=u'Readable short name to be used for behavior lookup',
+        description=u'E.g. plone.somebehavior. If not given the full dotted '
+                    u'name of the interfaces is used for lookup instead.'
+                    u'Recommended, but due to BBB not required.',
         required=False
     )
 
     interface = schema.Object(
-        title=u"Interface describing this behavior",
+        title=u'Interface describing this behavior',
         required=True,
         schema=IInterface
     )
 
     marker = schema.Object(
-        title=u"Marker interface for objects sporting this behavior",
-        description=u"Due to the persistent nature of marker interfaces, "
-                    u"you should only use this if you really need it, e.g. "
-                    u"to support specific view or viewlet registrations. "
-                    u"Subtypes will typically be set when an object is "
-                    u"created",
+        title=u'Marker interface for objects sporting this behavior',
+        description=u'Markers are persisted in the ZODB. '
+                    u'Required when a factory is given, because the factory '
+                    u'is an adapter adapting the the marker and providing the '
+                    u'"interface" of this behavior.',
         required=False,
         schema=IInterface
     )
 
     factory = schema.Object(
-        title=u"An adapter factory for the behavior",
+        title=u'An adapter factory for the behavior',
         required=True,
         schema=Interface
     )
@@ -77,8 +84,10 @@ class IBehaviorAdapterFactory(Interface):
      the context cannot be adapted to IBehaviorAssignable at all.
     """
 
-    behavior = schema.Object(title=u"The behavior this is a factory for",
-                             schema=IBehavior)
+    behavior = schema.Object(
+        title=u"The behavior this is a factory for",
+        schema=IBehavior
+    )
 
     def __call__(context):
         """Invoke the behavior-specific factory if the context can be adapted
