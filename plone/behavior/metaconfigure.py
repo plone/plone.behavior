@@ -61,9 +61,17 @@ class IBehaviorDirective(Interface):
                     u"factory for zope.interface.Interface",
         required=False)
 
+    name_only = configuration_fields.Bool(
+        title=u"Do not register the behavior under the dotted path, but "
+              u"only under the given name",
+        description=u"Use this option to register a behavior for the same "
+                    u"provides under a different name.",
+        required=False)
+
 
 def behaviorDirective(_context, title, provides, name=None, description=None,
-                      marker=None, factory=None, for_=None):
+                      marker=None, factory=None, for_=None, name_only=False):
+
     if marker is None and factory is None:
         marker = provides
 
@@ -71,6 +79,10 @@ def behaviorDirective(_context, title, provides, name=None, description=None,
         raise ConfigurationError(
             u"You cannot specify a different 'marker' and 'provides' if "
             u"there is no adapter factory for the provided interface."
+        )
+    if name_only and name is None:
+        raise ConfigurationError(
+            u"If you decide to only register by 'name', a name must be given."
         )
 
     # Instantiate the real factory if it's the schema-aware type. We do
@@ -86,14 +98,14 @@ def behaviorDirective(_context, title, provides, name=None, description=None,
         factory=factory,
         name=name,
     )
-
-    # behavior registration by provides interface identifier
-    utility(
-        _context,
-        provides=IBehavior,
-        name=provides.__identifier__,
-        component=registration
-    )
+    if not name_only:
+        # behavior registration by provides interface identifier
+        utility(
+            _context,
+            provides=IBehavior,
+            name=provides.__identifier__,
+            component=registration
+        )
 
     if name is not None:
         # for convinience we register with a given name

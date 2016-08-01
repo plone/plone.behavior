@@ -57,6 +57,11 @@ class IMarkerBehavior(Interface):
     pass
 
 
+# Behavior to be registered with name only
+class INameOnlyBehavior(Interface):
+    pass
+
+
 # For test of the annotation factory
 class IAnnotationStored(Interface):
     some_field = schema.TextLine(title=u"Some field", default=u"default value")
@@ -86,6 +91,6 @@ def test_suite():
         doctest.DocFileSuite(
             'annotation.rst',
             setUp=zope.component.testing.setUp,
-            tearDown=zope.component.testing.tearDown),
-        )
-    )
+            tearDown=zope.component.testing.tearDown
+        ),
+    ))

@@ -2,7 +2,7 @@
 Changelog
 =========
 
-1.1.2 (unreleased)
+1.2.0 (unreleased)
 ------------------
 
 Incompatibilities:
@@ -11,7 +11,9 @@ Incompatibilities:
 
 New:
 
-- *add item here*
+- New option to register a behavior only by it's short name and not by it's dotted name.
+  This enables more advanced behavior subclassing capabilities.
+  [jensens]
 
 Fixes:
 
