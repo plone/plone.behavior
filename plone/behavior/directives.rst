@@ -21,6 +21,10 @@ plone.behavior.tests:
 
   * A behavior providing a marker interface and using an adapter factory.
 
+  * A behavior registered by name only
+
+::
+
     >>> configuration = """\
     ... <configure
     ...      package="plone.behavior"
@@ -72,6 +76,13 @@ plone.behavior.tests:
     ...         provides=".tests.IMarkerAndAdapterBehavior"
     ...         factory="plone.behavior.AnnotationStorage"
     ...         marker=".tests.IMarkerAndAdapterMarker"
+    ...         />
+    ...
+    ...     <plone:behavior
+    ...         name="name_only"
+    ...         name_only="yes"
+    ...         title="Marker interface behavior"
+    ...         provides=".tests.INameOnlyBehavior"
     ...         />
     ...
     ... </configure>
@@ -269,6 +280,22 @@ declaration on the factory.
     >>> from plone.behavior.tests import IMarkerAndAdapterBehavior
     >>> [a.required for a in sm.registeredAdapters() if a.provided == IMarkerAndAdapterBehavior][0]
     (<InterfaceClass zope.annotation.interfaces.IAnnotatable>,)
+
+7) A name only registered behavior
+
+    >>> from zope.component.interfaces import ComponentLookupError
+    >>> failed = False
+    >>> try:
+    ...     dummy = getUtility(IBehavior, name=u"plone.behavior.tests.INameOnlyBehavior")
+    ... except ComponentLookupError, e:
+    ...     failed = True
+    >>> failed
+    True
+
+    >>> dummy = getUtility(IBehavior, name=u"name_only")
+    >>> dummy.name
+    u'name_only'
+
 
 Test registration lookup helper utility.
 
