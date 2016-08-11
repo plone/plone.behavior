@@ -4,19 +4,11 @@ Changelog
 1.2.0 (unreleased)
 ------------------
 
-Incompatibilities:
-
-- *add item here*
-
 New:
 
 - New option to register a behavior only by it's short name and not by it's dotted name.
   This enables more advanced behavior subclassing capabilities.
   [jensens]
-
-Fixes:
-
-- *add item here*
 
 
 1.1.1 (2016-02-25)
