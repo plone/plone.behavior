@@ -25,7 +25,7 @@ plone.behavior.tests:
 
 ::
 
-    >>> configuration = """\
+    >>> configuration = u"""\
     ... <configure
     ...      package="plone.behavior"
     ...      xmlns="http://namespaces.zope.org/zope"
@@ -104,7 +104,10 @@ Let's first verify that we don't have the dummy data registered already:
 We should now be able to load the sample configuration, which also includes the
 meta.zcml file from plone.behavior:
 
-    >>> from StringIO import StringIO
+    >>> try:
+    ...     from io import StringIO
+    ... except ImportError:
+    ...     from StringIO import StringIO
     >>> from zope.configuration import xmlconfig
     >>> xmlconfig.xmlconfig(StringIO(configuration))
 
@@ -287,7 +290,7 @@ declaration on the factory.
     >>> failed = False
     >>> try:
     ...     dummy = getUtility(IBehavior, name=u"plone.behavior.tests.INameOnlyBehavior")
-    ... except ComponentLookupError, e:
+    ... except ComponentLookupError as e:
     ...     failed = True
     >>> failed
     True

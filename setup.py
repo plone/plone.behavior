@@ -46,7 +46,9 @@ setup(
         'zope.schema',
     ],
     extras_require={
-        'test': [],
+        'test': [
+            'zope.lifecycleevent',
+        ],
     },
     entry_points="""
     """,

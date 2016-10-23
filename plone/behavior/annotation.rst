@@ -11,7 +11,7 @@ We have created such an interface in ``plone.behavior.tests``, called
 
 Let's show how this may be registered in ZCML::
 
-    >>> configuration = """\
+    >>> configuration = u"""\
     ... <configure
     ...      xmlns="http://namespaces.zope.org/zope"
     ...      xmlns:plone="http://namespaces.plone.org/plone"
@@ -30,7 +30,10 @@ Let's show how this may be registered in ZCML::
     ... </configure>
     ... """
 
-    >>> from StringIO import StringIO
+    >>> try:
+    ...     from io import StringIO
+    ... except ImportError:
+    ...     from StringIO import StringIO
     >>> from zope.configuration import xmlconfig
     >>> xmlconfig.xmlconfig(StringIO(configuration))
 
