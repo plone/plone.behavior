@@ -52,7 +52,7 @@ Example
 As an example, let's create a basic behavior that's described by the
 interface ILockingSupport::
 
-    >>> from zope.interface import implements
+    >>> from zope.interface import implementer
     >>> from zope.interface import Interface
 
     >>> class ILockingSupport(Interface):
@@ -62,16 +62,16 @@ interface ILockingSupport::
     ...     def unlock():
     ...         "Unlock the context"
 
-    >>> class LockingSupport(object):
-    ...     implements(ILockingSupport)
+    >>> @implementer(ILockingSupport)
+    ... class LockingSupport(object):
     ...     def __init__(self, context):
     ...         self.context = context
     ...
     ...     def lock(self):
-    ...         print 'Locked', repr(self.context)
+    ...         print('Locked', repr(self.context))
     ...
     ...     def unlock(self):
-    ...         print 'Unlocked', repr(self.context)
+    ...         print('Unlocked', repr(self.context))
 
 The availability of this new behavior is indicated by registering a named
 utility providing IBehavior. There is a default implementation of this
@@ -107,7 +107,6 @@ class.
     >>> from plone.behavior.factory import BehaviorAdapterFactory
     >>> factory = BehaviorAdapterFactory(registration)
 
-    >>> from zope.interface import implements
     >>> from zope.component import provideAdapter
     >>> provideAdapter(factory=factory, adapts=(Interface,), provides=ILockingSupport)
 
@@ -126,8 +125,8 @@ trying to adapt::
 
     >>> class IContextType(Interface): pass
 
-    >>> class SomeContext(object):
-    ...     implements(IContextType)
+    >>> @implementer(IContextType)
+    ... class SomeContext(object):
     ...     def __repr__(self):
     ...         return "<sample context>"
 
@@ -156,8 +155,8 @@ The adapter can thus be registered like this::
     >>> from plone.behavior.interfaces import IBehavior, IBehaviorAssignable
     >>> from zope.component import adapts, getUtility
 
-    >>> class TestingBehaviorAssignable(object):
-    ...     implements(IBehaviorAssignable)
+    >>> @implementer(IBehaviorAssignable)
+    ... class TestingBehaviorAssignable(object):
     ...     adapts(Interface)
     ...
     ...     def __init__(self, context):
@@ -257,8 +256,8 @@ as well.
     ...     tags = schema.List(title=u"Tags on this object",
     ...                        value_type=schema.TextLine(title=u"Tag"))
 
-    >>> class Tagging(object):
-    ...     implements(ITagging)
+    >>> @implementer(ITagging)
+    ... class Tagging(object):
     ...     def __init__(self, context):
     ...         self.context = context
     ...

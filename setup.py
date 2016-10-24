@@ -25,6 +25,7 @@ setup(
         "Programming Language :: Python",
         "Programming Language :: Python :: 2.6",
         "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3.5",
         "Topic :: Software Development :: Libraries :: Python Modules",
         "License :: OSI Approved :: BSD License",
     ],
@@ -46,7 +47,9 @@ setup(
         'zope.schema',
     ],
     extras_require={
-        'test': [],
+        'test': [
+            'zope.lifecycleevent',
+        ],
     },
     entry_points="""
     """,
