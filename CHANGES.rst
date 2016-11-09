@@ -4,18 +4,9 @@ Changelog
 1.1.3 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
 New features:
 
-- *add item here*
 - Support Python 3. [davisagli]
-
-Bug fixes:
-
-- *add item here*
 
 
 1.1.2 (2016-08-11)
