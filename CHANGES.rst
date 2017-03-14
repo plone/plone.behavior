@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1.5 (unreleased)
+1.2.0 (unreleased)
 ------------------
 
 Breaking changes:
@@ -10,11 +10,16 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- For zcml registration:
+  If both, no ``for`` and no ``@adapter`` is given,
+  fall first back to ``marker`` if given (new),
+  else to ``Interface`` (as it was already before).
+  [jensens]
 
 Bug fixes:
 
-- *add item here*
+- Cleanup: Make Jenkins CI code analysis silent by fixing the issues.
+  [jensens]
 
 
 1.1.4 (2016-12-06)

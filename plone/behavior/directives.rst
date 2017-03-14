@@ -79,6 +79,14 @@ plone.behavior.tests:
     ...         />
     ...
     ...     <plone:behavior
+    ...         name="marker_and_adapter_no_atadapter"
+    ...         title="Marker and adapter no @adapter"
+    ...         provides=".tests.IMarkerAndAdapterBehavior2"
+    ...         factory=".tests.DummyBehaviorImpl"
+    ...         marker=".tests.IMarkerAndAdapterMarker2"
+    ...         />
+    ...
+    ...     <plone:behavior
     ...         name="name_only"
     ...         name_only="yes"
     ...         title="Marker interface behavior"
@@ -261,6 +269,8 @@ declaration on the factory.
 
 6) A behavior providing a marker interface and using an adapter factory.
 
+6.1) ``@adapter`` decorated Behavior implementation.
+
     >>> dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IMarkerAndAdapterBehavior")
     >>> dummy.name
     u'marker_and_adapter'
@@ -280,9 +290,40 @@ declaration on the factory.
     >>> dummy.factory # doctest: +ELLIPSIS
     <plone.behavior.annotation.AnnotationStorage object at ...>
 
+    The factory has ist ``__component_adapts__`` (``@adapter``) in place, so the adapted Interface must be returned.
+
     >>> from plone.behavior.tests import IMarkerAndAdapterBehavior
     >>> [a.required for a in sm.registeredAdapters() if a.provided == IMarkerAndAdapterBehavior][0]
     (<InterfaceClass zope.annotation.interfaces.IAnnotatable>,)
+
+
+6.2) non ``@adapter`` decorated Behavior implementation.
+
+    >>> dummy = getUtility(IBehavior, name=u"marker_and_adapter_no_atadapter")
+    >>> dummy.name
+    u'marker_and_adapter_no_atadapter'
+
+    >>> dummy.title
+    u'Marker and adapter no @adapter'
+
+    >>> dummy.description is None
+    True
+
+    >>> dummy.interface
+    <InterfaceClass plone.behavior.tests.IMarkerAndAdapterBehavior2>
+
+    >>> dummy.marker
+    <InterfaceClass plone.behavior.tests.IMarkerAndAdapterMarker2>
+
+    >>> dummy.factory # doctest: +ELLIPSIS
+    <class 'plone.behavior.tests.DummyBehaviorImpl'>
+
+    The factory has ist ``__component_adapts__`` (``@adapter``) in place, so the adapted Interface must be returned.
+
+    >>> from plone.behavior.tests import IMarkerAndAdapterBehavior2
+    >>> [a.required for a in sm.registeredAdapters() if a.provided == IMarkerAndAdapterBehavior2][0]
+    (<InterfaceClass plone.behavior.tests.IMarkerAndAdapterMarker2>,)
+
 
 7) A name only registered behavior
 

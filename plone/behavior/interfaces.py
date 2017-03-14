@@ -85,7 +85,7 @@ class IBehaviorAdapterFactory(Interface):
     """
 
     behavior = schema.Object(
-        title=u"The behavior this is a factory for",
+        title=u'The behavior this is a factory for',
         schema=IBehavior
     )
 
