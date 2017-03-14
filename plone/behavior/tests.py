@@ -67,7 +67,7 @@ class INameOnlyBehavior(Interface):
 
 # For test of the annotation factory
 class IAnnotationStored(Interface):
-    some_field = schema.TextLine(title=u"Some field", default=u"default value")
+    some_field = schema.TextLine(title=u'Some field', default=u'default value')
 
 
 # Behavior and marker
@@ -75,8 +75,22 @@ class IMarkerAndAdapterBehavior(Interface):
     pass
 
 
+class IMarkerAndAdapterBehavior2(Interface):
+    pass
+
+
 class IMarkerAndAdapterMarker(Interface):
     pass
+
+
+class IMarkerAndAdapterMarker2(Interface):
+    pass
+
+
+class DummyBehaviorImpl(object):
+
+    def __init__(self, context):
+        self.context = context
 
 
 class Py23DocChecker(doctest.OutputChecker):

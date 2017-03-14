@@ -7,6 +7,7 @@ from zope.interface import implementer
 import sys
 import textwrap
 
+
 if sys.version_info[0] >= 3:
     text_type = str
 else:
