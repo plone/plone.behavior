@@ -112,7 +112,7 @@ The ``name`` can be used for lookup instead of the full dotted name of the inter
 
 We also have a helper function to achieve this::
 
-    from registration import lookup_behavior_registration
+    from plone.behavior.registration import lookup_behavior_registration
 
     registration = lookup_behavior_registration(name='locking_support')
 
