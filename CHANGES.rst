@@ -4,10 +4,6 @@ Changelog
 1.2.0 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
 New features:
 
 - For zcml registration:
