@@ -14,7 +14,7 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Fixed import of dotted path in example.  [fulv]
 
 
 1.2.0 (2017-03-23)
