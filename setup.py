@@ -2,7 +2,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 
-version = '1.2.1'
+version = '1.2.2.dev0'
 desc = "Infrastructure for maintaining a registry of available behaviors"
 doc_files = [
     "README.rst",
