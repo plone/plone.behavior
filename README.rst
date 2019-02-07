@@ -178,6 +178,11 @@ The directive supports the attributes:
 
     Must be one element (no multiadapters, applies also for auto-detection).
 
+``former_dotted_names``
+    In case a behavior is modified so that its dotted name changes, this field can be used to register the old name(s). Therefore, it is possible to retrieve the name(s) under which a behavior was formerly registered under.
+
+    If a call to ``lookup_behavior_registration`` does not find a behavior under the given name, it will look at the former dotted names to try and find the behavior.
+
 
 ZCML Examples
 -------------

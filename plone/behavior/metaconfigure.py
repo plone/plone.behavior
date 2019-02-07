@@ -68,6 +68,14 @@ class IBehaviorDirective(Interface):
                     u'provides under a different name.',
         required=False)
 
+    former_dotted_names = TextLine(
+        title=u'Space-separated list of dotted names that this behavior was '
+              u'formerly registered under',
+        description=u'Use this field in case you change the dotted name, '
+                    u'so that the current behavior can be looked up under '
+                    u'its former name.',
+        required=False)
+
 
 def _detect_for(factory, marker):
     """if no explicit for is given we need to figure it out.
@@ -92,7 +100,8 @@ def _detect_for(factory, marker):
 
 
 def behaviorDirective(_context, title, provides, name=None, description=None,
-                      marker=None, factory=None, for_=None, name_only=False):
+                      marker=None, factory=None, for_=None, name_only=False,
+                      former_dotted_names=''):
 
     if marker is None and factory is None:
         # a schema only behavior means usually direct attribute settings on the
@@ -124,6 +133,7 @@ def behaviorDirective(_context, title, provides, name=None, description=None,
         marker=marker,
         factory=factory,
         name=name,
+        former_dotted_names=former_dotted_names,
     )
     # the behavior registration can be looked up as a named utility.
     # the name of the utility is either the full dotted path of the interface
