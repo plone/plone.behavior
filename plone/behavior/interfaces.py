@@ -30,12 +30,12 @@ class IBehavior(Interface):
 
     title = schema.TextLine(
         title=u'Short title of the behavior',
-        required=True
+        required=True,
     )
 
     description = schema.Text(
         title=u'Longer description of the behavior',
-        required=False
+        required=False,
     )
 
     name = schema.TextLine(
@@ -43,13 +43,13 @@ class IBehavior(Interface):
         description=u'E.g. plone.somebehavior. If not given the full dotted '
                     u'name of the interfaces is used for lookup instead.'
                     u'Recommended, but due to BBB not required.',
-        required=False
+        required=False,
     )
 
     interface = schema.Object(
         title=u'Interface describing this behavior',
         required=True,
-        schema=IInterface
+        schema=IInterface,
     )
 
     marker = schema.Object(
@@ -59,13 +59,13 @@ class IBehavior(Interface):
                     u'is an adapter adapting the the marker and providing the '
                     u'"interface" of this behavior.',
         required=False,
-        schema=IInterface
+        schema=IInterface,
     )
 
     factory = schema.Object(
         title=u'An adapter factory for the behavior',
         required=True,
-        schema=Interface
+        schema=Interface,
     )
 
 
@@ -86,7 +86,7 @@ class IBehaviorAdapterFactory(Interface):
 
     behavior = schema.Object(
         title=u'The behavior this is a factory for',
-        schema=IBehavior
+        schema=IBehavior,
     )
 
     def __call__(context):

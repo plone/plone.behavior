@@ -56,11 +56,11 @@ class BehaviorRegistration(object):
             'title': self.title or '(no title)',
             'description': textwrap.fill(
                 self.description or '(no description)',
-                subsequent_indent='  '
+                subsequent_indent='  ',
             ),
             'extra_info': (
                 self.former_dotted_names and
-                '\n  former dotted names: {}'.format(self.former_dotted_names)
+                '\n  former dotted names: {0}'.format(self.former_dotted_names)
             ),
         }
         return REGISTRATION_REPR.format(**info)
@@ -96,9 +96,8 @@ def lookup_behavior_registration(
             if name in behavior.former_dotted_names:
                 if warn_about_fallback:
                     logger.warn(
-                        'The dotted name "{}" is deprecated. It has been '
-                        'changed to "{}"'.format(
-                            name, behavior.interface.__identifier__)
-                    )
+                        'The dotted name "{0}" is deprecated. It has been '
+                        'changed to "{1}"'.format(
+                            name, behavior.interface.__identifier__, ))
                 return behavior
         raise BehaviorRegistrationNotFound(name)
