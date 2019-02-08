@@ -23,6 +23,17 @@ class AdapterBehavior(object):
         self.context = context
 
 
+# Simple adapter behavior that used to have a different name
+class IRenamedAdapterBehavior(Interface):
+    pass
+
+
+@implementer(IRenamedAdapterBehavior)
+class RenamedAdapterBehavior(object):
+    def __init__(self, context):
+        self.context = context
+
+
 # Adapter behavior with explicit context restriction
 class IRestrictedAdapterBehavior(Interface):
     pass

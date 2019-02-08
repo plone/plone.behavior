@@ -93,6 +93,15 @@ plone.behavior.tests:
     ...         provides=".tests.INameOnlyBehavior"
     ...         />
     ...
+    ...     <plone:behavior
+    ...         name="renamed_adapter_behavior"
+    ...         title="Renamed Adapter behavior"
+    ...         description="A basic adapter behavior that used to have a different name"
+    ...         provides=".tests.IRenamedAdapterBehavior"
+    ...         factory=".tests.RenamedAdapterBehavior"
+    ...         former_dotted_names="plone.behavior.tests.IOriginalAdapterBehavior"
+    ...         />
+    ...
     ... </configure>
     ... """
 
@@ -340,6 +349,20 @@ declaration on the factory.
     >>> dummy.name
     u'name_only'
 
+8) A behavior that used to be known under a different dotted name
+
+    A behavior that has been renamed, can of course be found under the new name.
+    The representation tells us the former dotted name.
+    >>> dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IRenamedAdapterBehavior")
+    >>> dummy  # doctest: +ELLIPSIS
+    <BehaviorRegistration renamed_adapter_behavior at ...
+      schema: plone.behavior.tests.IRenamedAdapterBehavior
+      marker: (no marker is set)
+      factory: <class 'plone.behavior.tests.RenamedAdapterBehavior'>
+      title: Renamed Adapter behavior
+      A basic adapter behavior that used to have a different name
+      former dotted names: plone.behavior.tests.IOriginalAdapterBehavior
+    >
 
 Test registration lookup helper utility.
 
@@ -373,3 +396,17 @@ Test registration lookup helper utility.
       title: Adapter behavior
       A basic adapter behavior
     >
+
+    A lookup via getUtility for a former behavior name fails.
+    >>> failed = False
+    >>> try:
+    ...     dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IOriginalAdapterBehavior")
+    ... except ComponentLookupError:
+    ...     failed = True
+    >>> failed
+    True
+
+    But the lookup helper still finds it under the former name.
+    >>> dummy = lookup_behavior_registration("plone.behavior.tests.IOriginalAdapterBehavior")
+    >>> dummy.name
+    u'renamed_adapter_behavior'
