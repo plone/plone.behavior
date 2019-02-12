@@ -1,12 +1,14 @@
 Changelog
 =========
 
-1.2.2 (unreleased)
-------------------
+.. You should *NOT* be adding new change log entries to this file.
+   You should create a file in the news directory instead.
+   For helpful instructions, please see:
+   https://github.com/plone/plone.releaser/blob/master/ADD-A-NEWS-ITEM.rst
 
-Breaking changes:
+.. towncrier release notes start
 
-- *add item here*
+4.4.1 (2019-02-08)
 
 New features:
 
@@ -15,10 +17,6 @@ New features:
   transition in case a behavior's dotted name is changed.
   Refs: #18
   [pysailor]
-
-Bug fixes:
-
-- *add item here*
 
 
 1.2.1 (2018-01-17)
