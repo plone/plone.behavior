@@ -353,6 +353,7 @@ declaration on the factory.
 
     A behavior that has been renamed, can of course be found under the new name.
     The representation tells us the former dotted name.
+    
     >>> dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IRenamedAdapterBehavior")
     >>> dummy  # doctest: +ELLIPSIS
     <BehaviorRegistration renamed_adapter_behavior at ...
@@ -398,6 +399,7 @@ Test registration lookup helper utility.
     >
 
     A lookup via getUtility for a former behavior name fails.
+    
     >>> failed = False
     >>> try:
     ...     dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IOriginalAdapterBehavior")
@@ -407,6 +409,7 @@ Test registration lookup helper utility.
     True
 
     But the lookup helper still finds it under the former name.
+    
     >>> dummy = lookup_behavior_registration("plone.behavior.tests.IOriginalAdapterBehavior")
     >>> dummy.name
     u'renamed_adapter_behavior'
