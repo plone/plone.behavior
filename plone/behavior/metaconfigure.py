@@ -85,6 +85,14 @@ class IBehaviorDirective(Interface):
         required=False,
     )
 
+    deprecated = TextLine(
+        title=u'Issue a deprecation warning if this behavior registration is used.',
+        description=u'Use this field in case you want to deprecate the usage of this '
+                    u'behavior. The string should contain the new name to be used. '
+                    u'It is added to the warning in order to give a hint.',
+        required=False,
+    )
+
 
 def _detect_for(factory, marker):
     """if no explicit for is given we need to figure it out.
@@ -109,7 +117,7 @@ def _detect_for(factory, marker):
 
 def behaviorDirective(_context, title, provides, name=None, description=None,
                       marker=None, factory=None, for_=None, name_only=False,
-                      former_dotted_names=''):
+                      former_dotted_names='', deprecated=False):
 
     if marker is None and factory is None:
         # a schema only behavior means usually direct attribute settings on the
@@ -140,6 +148,7 @@ def behaviorDirective(_context, title, provides, name=None, description=None,
         factory=factory,
         name=name,
         former_dotted_names=former_dotted_names,
+        deprecated=deprecated,
     )
     # the behavior registration can be looked up as a named utility.
     # the name of the utility is either the full dotted path of the interface

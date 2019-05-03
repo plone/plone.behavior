@@ -8,6 +8,7 @@ from zope.interface import implementer
 
 import sys
 import textwrap
+import warnings
 
 
 if sys.version_info[0] >= 3:
@@ -30,7 +31,8 @@ REGISTRATION_REPR = """\
 class BehaviorRegistration(object):
 
     def __init__(self, title, description, interface,
-                 marker, factory, name=None, former_dotted_names=''):
+                 marker, factory, name=None, former_dotted_names='',
+                 deprecated=False):
         self.title = title
         self.description = description
         self.interface = interface
@@ -38,6 +40,7 @@ class BehaviorRegistration(object):
         self.factory = factory
         self.name = name
         self.former_dotted_names = former_dotted_names
+        self.deprecated = deprecated
 
     def __repr__(self):
         if self.marker is not None:
@@ -46,6 +49,15 @@ class BehaviorRegistration(object):
             marker_info = '(uses schema as marker)'
         else:
             marker_info = '(no marker is set)'
+        extra_info = ''
+        if self.former_dotted_names:
+            extra_info += '\n  former dotted names: {0}'.format(
+                self.former_dotted_names
+            )
+        if self.deprecated:
+            extra_info += '\n  (!) deprecated, use {0} instead'.format(
+                self.deprecated
+            )
         info = {
             'class': self.__class__.__name__,
             'id': id(self),
@@ -58,10 +70,7 @@ class BehaviorRegistration(object):
                 self.description or '(no description)',
                 subsequent_indent='  ',
             ),
-            'extra_info': (
-                self.former_dotted_names and
-                '\n  former dotted names: {0}'.format(self.former_dotted_names)
-            ),
+            'extra_info': extra_info,
         }
         return REGISTRATION_REPR.format(**info)
 
@@ -88,16 +97,32 @@ def lookup_behavior_registration(
     if identifier:
         name = identifier
     try:
-        return getUtility(IBehavior, name=name)
+        registration = getUtility(IBehavior, name=name)
     except ComponentLookupError:
         for id_, behavior in getUtilitiesFor(IBehavior):
             # Before we raise an error, iterate over all behaviors and check
             # if the requested name is registered as a former dotted name.
             if name in behavior.former_dotted_names:
                 if warn_about_fallback:
-                    logger.warn(
+                    logger.warning(
                         'The dotted name "{0}" is deprecated. It has been '
                         'changed to "{1}"'.format(
-                            name, behavior.interface.__identifier__, ))
-                return behavior
-        raise BehaviorRegistrationNotFound(name)
+                            name,
+                            behavior.interface.__identifier__,
+                        ),
+                    )
+                registration = behavior
+                break
+        else:
+            raise BehaviorRegistrationNotFound(name)
+    if registration.deprecated:
+        warnings.warn(
+            'Behavior usage over name "{0}" is deprecated, '
+            'please use new name "{1}" instead'.format(
+                registration.name,
+                registration.deprecated
+            ),
+            DeprecationWarning
+        )
+
+    return registration

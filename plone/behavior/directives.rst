@@ -102,6 +102,15 @@ plone.behavior.tests:
     ...         former_dotted_names="plone.behavior.tests.IOriginalAdapterBehavior"
     ...         />
     ...
+    ...     <plone:behavior
+    ...         name="deprecated_adapter_behavior"
+    ...         title="Deprecated Adapter behavior"
+    ...         description="A basic adapter behavior that has been deprecated"
+    ...         provides=".tests.IDeprecatedAdapterBehavior"
+    ...         factory=".tests.DeprecatedAdapterBehavior"
+    ...         deprecated="plone.bettername"
+    ...         />
+    ...
     ... </configure>
     ... """
 
@@ -336,7 +345,7 @@ declaration on the factory.
 
 7) A name only registered behavior
 
-    >>> from zope.component.interfaces import ComponentLookupError
+    >>> from zope.interface.interfaces import ComponentLookupError
     >>> failed = False
     >>> try:
     ...     dummy = getUtility(IBehavior, name=u"plone.behavior.tests.INameOnlyBehavior")
@@ -353,7 +362,7 @@ declaration on the factory.
 
     A behavior that has been renamed, can of course be found under the new name.
     The representation tells us the former dotted name.
-    
+
     >>> dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IRenamedAdapterBehavior")
     >>> dummy  # doctest: +ELLIPSIS
     <BehaviorRegistration renamed_adapter_behavior at ...
@@ -363,6 +372,21 @@ declaration on the factory.
       title: Renamed Adapter behavior
       A basic adapter behavior that used to have a different name
       former dotted names: plone.behavior.tests.IOriginalAdapterBehavior
+    >
+
+9) A deprecated behavior
+
+    A behavior that has been deprecated.
+
+    >>> dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IDeprecatedAdapterBehavior")
+    >>> dummy  # doctest: +ELLIPSIS
+    <BehaviorRegistration deprecated_adapter_behavior at ...
+      schema: plone.behavior.tests.IDeprecatedAdapterBehavior
+      marker: (no marker is set)
+      factory: <class 'plone.behavior.tests.DeprecatedAdapterBehavior'>
+      title: Deprecated Adapter behavior
+      A basic adapter behavior that has been deprecated
+      (!) deprecated, use plone.bettername instead
     >
 
 Test registration lookup helper utility.
@@ -399,7 +423,7 @@ Test registration lookup helper utility.
     >
 
     A lookup via getUtility for a former behavior name fails.
-    
+
     >>> failed = False
     >>> try:
     ...     dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IOriginalAdapterBehavior")
@@ -409,7 +433,24 @@ Test registration lookup helper utility.
     True
 
     But the lookup helper still finds it under the former name.
-    
+
     >>> dummy = lookup_behavior_registration("plone.behavior.tests.IOriginalAdapterBehavior")
     >>> dummy.name
     u'renamed_adapter_behavior'
+
+    Deprecations should be warned
+
+    >>> import warnings
+    >>> from plone.behavior.registration import lookup_behavior_registration
+    >>> with warnings.catch_warnings(record=True) as w:
+    ...     lookup_behavior_registration(name="deprecated_adapter_behavior")
+    ...     w[0].message # doctest: +ELLIPSIS
+    <BehaviorRegistration deprecated_adapter_behavior at ...
+      schema: plone.behavior.tests.IDeprecatedAdapterBehavior
+      marker: (no marker is set)
+      factory: <class 'plone.behavior.tests.DeprecatedAdapterBehavior'>
+      title: Deprecated Adapter behavior
+      A basic adapter behavior that has been deprecated
+      (!) deprecated, use plone.bettername instead
+    >
+    DeprecationWarning('Behavior usage over name "deprecated_adapter_behavior" is deprecated, please use new name "plone.bettername" instead')

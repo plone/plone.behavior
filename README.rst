@@ -183,6 +183,10 @@ The directive supports the attributes:
 
     If a call to ``lookup_behavior_registration`` does not find a behavior under the given name, it will look at the former dotted names to try and find the behavior.
 
+``deprecation``
+    If a behavior needs to get deprecated under its current name, the field can be used to issue a deprecation message.
+    As text given here the name of the behavior to be used instead is expected.
+
 
 ZCML Examples
 -------------

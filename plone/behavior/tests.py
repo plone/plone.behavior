@@ -34,6 +34,17 @@ class RenamedAdapterBehavior(object):
         self.context = context
 
 
+# Simple adapter behavior that is deprecated
+class IDeprecatedAdapterBehavior(Interface):
+    pass
+
+
+@implementer(IDeprecatedAdapterBehavior)
+class DeprecatedAdapterBehavior(object):
+    def __init__(self, context):
+        self.context = context
+
+
 # Adapter behavior with explicit context restriction
 class IRestrictedAdapterBehavior(Interface):
     pass
