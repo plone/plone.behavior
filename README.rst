@@ -215,7 +215,15 @@ I.e. both is done by ``plone.dexterity``.
 - with ``behavior = IMyBehavior(context)`` the ``context`` itself is returned,
 - ``context`` provides ``IBehavior``,
 
-**Example 2** - also ``factory`` is given, so ``marker`` is required::
+**Example 2** - also ``factory`` is given, so ``marker`` is required:
+
+.. warning::
+   Using the same Interface as marker and behavior works, but is not recommended and will be deprecated in future.
+   It is semantically wrong!
+   
+   Go for Example 3 instead!
+
+::
 
     <plone:behavior
         title="Example 1"
