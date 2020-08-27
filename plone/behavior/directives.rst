@@ -336,7 +336,7 @@ declaration on the factory.
 
 7) A name only registered behavior
 
-    >>> from zope.component.interfaces import ComponentLookupError
+    >>> from zope.interface.interfaces import ComponentLookupError
     >>> failed = False
     >>> try:
     ...     dummy = getUtility(IBehavior, name=u"plone.behavior.tests.INameOnlyBehavior")
