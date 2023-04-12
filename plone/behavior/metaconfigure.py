@@ -22,81 +22,78 @@ class IBehaviorDirective(Interface):
     """
 
     name = TextLine(
-        title='Name',
-        description='Convenience lookup name for this behavior',
+        title="Name",
+        description="Convenience lookup name for this behavior",
         required=False,
     )
 
     title = configuration_fields.MessageID(
-        title='Title',
-        description='A user friendly title for this behavior',
+        title="Title",
+        description="A user friendly title for this behavior",
         required=True,
     )
 
     description = configuration_fields.MessageID(
-        title='Description',
-        description='A longer description for this behavior',
+        title="Description",
+        description="A longer description for this behavior",
         required=False,
     )
 
     provides = configuration_fields.GlobalInterface(
-        title='An interface to which the behavior can be adapted',
-        description='This is what the conditional adapter factory will '
-                    'be registered as providing',
+        title="An interface to which the behavior can be adapted",
+        description="This is what the conditional adapter factory will "
+        "be registered as providing",
         required=True,
     )
 
     marker = configuration_fields.GlobalInterface(
-        title='A marker interface to be applied by the behavior',
-        description='If factory is not given, then this is optional',
+        title="A marker interface to be applied by the behavior",
+        description="If factory is not given, then this is optional",
         required=False,
     )
 
     factory = configuration_fields.GlobalObject(
-        title='The factory for this behavior',
-        description='If this is not given, the behavior is assumed to '
-                    'provide a marker interface',
+        title="The factory for this behavior",
+        description="If this is not given, the behavior is assumed to "
+        "provide a marker interface",
         required=False,
     )
 
     for_ = configuration_fields.GlobalObject(
-        title='The type of object to register the conditional adapter '
-              'factory for',
-        description='This is optional - the default is to register the '
-                    'factory for zope.interface.Interface',
+        title="The type of object to register the conditional adapter " "factory for",
+        description="This is optional - the default is to register the "
+        "factory for zope.interface.Interface",
         required=False,
     )
 
     name_only = configuration_fields.Bool(
-        title='Do not register the behavior under the dotted path, but '
-              'only under the given name',
-        description='Use this option to register a behavior for the same '
-                    'provides under a different name.',
+        title="Do not register the behavior under the dotted path, but "
+        "only under the given name",
+        description="Use this option to register a behavior for the same "
+        "provides under a different name.",
         required=False,
     )
 
     former_dotted_names = TextLine(
-        title='Space-separated list of dotted names that this behavior was '
-              'formerly registered under',
-        description='Use this field in case you change the dotted name, '
-                    'so that the current behavior can be looked up under '
-                    'its former name.',
+        title="Space-separated list of dotted names that this behavior was "
+        "formerly registered under",
+        description="Use this field in case you change the dotted name, "
+        "so that the current behavior can be looked up under "
+        "its former name.",
         required=False,
     )
 
 
 def _detect_for(factory, marker):
-    """if no explicit for is given we need to figure it out.
-    """
+    """if no explicit for is given we need to figure it out."""
     # Attempt to guess the factory's adapted interface and use it as
     # the 'for_'.
     # at last bastion fallback to '*' (=Interface).
-    adapts = getattr(factory, '__component_adapts__', [])
+    adapts = getattr(factory, "__component_adapts__", [])
     if len(adapts) == 1:
         return adapts[0]
     if len(adapts) > 1:
-        raise ConfigurationError(
-            'The factory can not be declared as multi-adapter.')
+        raise ConfigurationError("The factory can not be declared as multi-adapter.")
     # down here it means len(adapts) < 1
     if marker is not None:
         # given we have a marker it is safe to register for the
@@ -106,10 +103,18 @@ def _detect_for(factory, marker):
     return Interface
 
 
-def behaviorDirective(_context, title, provides, name=None, description=None,
-                      marker=None, factory=None, for_=None, name_only=False,
-                      former_dotted_names=''):
-
+def behaviorDirective(
+    _context,
+    title,
+    provides,
+    name=None,
+    description=None,
+    marker=None,
+    factory=None,
+    for_=None,
+    name_only=False,
+    former_dotted_names="",
+):
     if marker is None and factory is None:
         # a schema only behavior means usually direct attribute settings on the
         # object itself, so the object itself provides the interface.
@@ -118,12 +123,13 @@ def behaviorDirective(_context, title, provides, name=None, description=None,
 
     if marker is not None and factory is None and marker is not provides:
         raise ConfigurationError(
-            'You cannot specify a different \'marker\' and \'provides\' if '
-            'there is no adapter factory for the provided interface.')
+            "You cannot specify a different 'marker' and 'provides' if "
+            "there is no adapter factory for the provided interface."
+        )
     if name_only and name is None:
         raise ConfigurationError(
-            'If you decide to only register by \'name\', a name must '
-            'be given.')
+            "If you decide to only register by 'name', a name must " "be given."
+        )
 
     # Instantiate the real factory if it's the schema-aware type. We do
     # this here so that the for_ interface may take this into account.
@@ -167,8 +173,9 @@ def behaviorDirective(_context, title, provides, name=None, description=None,
     if factory is None:
         if for_ is not None:
             logger.warn(
-                'Specifying \'for\' in behavior \'{}\' if no \'factory\' is '
-                'given has no effect and is superfluous.'.format(title))
+                "Specifying 'for' in behavior '{}' if no 'factory' is "
+                "given has no effect and is superfluous.".format(title)
+            )
         # w/o factory we're done here: schema only behavior
         return
 

@@ -5,7 +5,6 @@ from zope.interface import implementer
 
 @implementer(IBehaviorAdapterFactory)
 class BehaviorAdapterFactory:
-
     def __init__(self, behavior):
         self.behavior = behavior
 

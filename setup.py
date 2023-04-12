@@ -2,17 +2,17 @@ from setuptools import find_packages
 from setuptools import setup
 
 
-version = '1.4.1.dev0'
+version = "1.4.1.dev0"
 desc = "Infrastructure for maintaining a registry of available behaviors"
 doc_files = [
     "README.rst",
     "CHANGES.rst",
 ]
-longdesc = '\n'.join([open(_).read() for _ in doc_files])
+longdesc = "\n".join([open(_).read() for _ in doc_files])
 
 
 setup(
-    name='plone.behavior',
+    name="plone.behavior",
     version=version,
     description=desc,
     long_description=longdesc,
@@ -32,26 +32,26 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
         "License :: OSI Approved :: BSD License",
     ],
-    keywords='Plone behavior registry',
-    author='Martin Aspeli',
-    author_email='optilude@gmail.com',
-    url='https://pypi.org/project/plone.behavior',
-    license='BSD',
+    keywords="Plone behavior registry",
+    author="Martin Aspeli",
+    author_email="optilude@gmail.com",
+    url="https://pypi.org/project/plone.behavior",
+    license="BSD",
     packages=find_packages(),
-    namespace_packages=['plone'],
+    namespace_packages=["plone"],
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'setuptools',
-        'zope.annotation',
-        'zope.component',
-        'zope.configuration',
-        'zope.interface',
-        'zope.schema',
+        "setuptools",
+        "zope.annotation",
+        "zope.component",
+        "zope.configuration",
+        "zope.interface",
+        "zope.schema",
     ],
     extras_require={
-        'test': [
-            'zope.lifecycleevent',
+        "test": [
+            "zope.lifecycleevent",
         ],
     },
     entry_points="""

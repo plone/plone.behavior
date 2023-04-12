@@ -59,7 +59,6 @@ class ISomeContext(Interface):
 @implementer(IImpliedRestrictionAdapterBehavior)
 @adapter(ISomeContext)
 class ImpliedRestrictionAdapterBehavior:
-
     def __init__(self, context):
         self.context = context
 
@@ -76,7 +75,7 @@ class INameOnlyBehavior(Interface):
 
 # For test of the annotation factory
 class IAnnotationStored(Interface):
-    some_field = schema.TextLine(title='Some field', default='default value')
+    some_field = schema.TextLine(title="Some field", default="default value")
 
 
 # Behavior and marker
@@ -97,7 +96,6 @@ class IMarkerAndAdapterMarker2(Interface):
 
 
 class DummyBehaviorImpl:
-
     def __init__(self, context):
         self.context = context
 
@@ -108,32 +106,35 @@ class Py23DocChecker(doctest.OutputChecker):
             want = re.sub("u'(.*?)'", "'\\1'", want)
             want = re.sub('u"(.*?)"', '"\\1"', want)
             got = re.sub(
-                'plone.behavior.registration.BehaviorRegistrationNotFound',
-                'BehaviorRegistrationNotFound', got)
+                "plone.behavior.registration.BehaviorRegistrationNotFound",
+                "BehaviorRegistrationNotFound",
+                got,
+            )
         return doctest.OutputChecker.check_output(self, want, got, optionflags)
 
 
 def test_suite():
-    return unittest.TestSuite((
-
-        doctest.DocFileSuite(
-            'behaviors.rst',
-            tearDown=zope.component.testing.tearDown,
-            globs={
-                'print_function': print_function,
-            },
-            checker=Py23DocChecker(),
-        ),
-        doctest.DocFileSuite(
-            'directives.rst',
-            setUp=zope.component.testing.setUp,
-            tearDown=zope.component.testing.tearDown,
-            checker=Py23DocChecker(),
-        ),
-        doctest.DocFileSuite(
-            'annotation.rst',
-            setUp=zope.component.testing.setUp,
-            tearDown=zope.component.testing.tearDown,
-            checker=Py23DocChecker(),
-        ),
-    ))
+    return unittest.TestSuite(
+        (
+            doctest.DocFileSuite(
+                "behaviors.rst",
+                tearDown=zope.component.testing.tearDown,
+                globs={
+                    "print_function": print_function,
+                },
+                checker=Py23DocChecker(),
+            ),
+            doctest.DocFileSuite(
+                "directives.rst",
+                setUp=zope.component.testing.setUp,
+                tearDown=zope.component.testing.tearDown,
+                checker=Py23DocChecker(),
+            ),
+            doctest.DocFileSuite(
+                "annotation.rst",
+                setUp=zope.component.testing.setUp,
+                tearDown=zope.component.testing.tearDown,
+                checker=Py23DocChecker(),
+            ),
+        )
+    )
