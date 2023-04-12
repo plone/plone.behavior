@@ -154,13 +154,13 @@ for any context.
 
     >>> dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IAdapterBehavior")
     >>> dummy.name
-    u'adapter_behavior'
+    'adapter_behavior'
 
     >>> dummy.title
-    u'Adapter behavior'
+    'Adapter behavior'
 
     >>> dummy.description
-    u'A basic adapter behavior'
+    'A basic adapter behavior'
 
     >>> dummy.interface
     <InterfaceClass plone.behavior.tests.IAdapterBehavior>
@@ -179,10 +179,10 @@ for any context.
 
     >>> dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IRestrictedAdapterBehavior")
     >>> dummy.name
-    u'context_restricted_behavior'
+    'context_restricted_behavior'
 
     >>> dummy.title
-    u'Context restricted behavior'
+    'Context restricted behavior'
 
     >>> dummy.description is None
     True
@@ -205,10 +205,10 @@ declaration on the factory.
 
     >>> dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IImpliedRestrictionAdapterBehavior")
     >>> dummy.name
-    u'factory_implied_context_restricted_behavior'
+    'factory_implied_context_restricted_behavior'
 
     >>> dummy.title
-    u'Factory-implied context restricted behavior'
+    'Factory-implied context restricted behavior'
 
     >>> dummy.description is None
     True
@@ -230,10 +230,10 @@ declaration on the factory.
 
     >>> dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IMarkerBehavior")
     >>> dummy.name
-    u'marker_interface_behavior'
+    'marker_interface_behavior'
 
     >>> dummy.title
-    u'Marker interface behavior'
+    'Marker interface behavior'
 
     >>> dummy.description is None
     True
@@ -255,10 +255,10 @@ declaration on the factory.
 
     >>> dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IAnnotationStored")
     >>> dummy.name
-    u'annotation_storage_behavior'
+    'annotation_storage_behavior'
 
     >>> dummy.title
-    u'Annotation storage behavior'
+    'Annotation storage behavior'
 
     >>> dummy.description is None
     True
@@ -282,10 +282,10 @@ declaration on the factory.
 
     >>> dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IMarkerAndAdapterBehavior")
     >>> dummy.name
-    u'marker_and_adapter'
+    'marker_and_adapter'
 
     >>> dummy.title
-    u'Marker and adapter'
+    'Marker and adapter'
 
     >>> dummy.description is None
     True
@@ -310,10 +310,10 @@ declaration on the factory.
 
     >>> dummy = getUtility(IBehavior, name=u"marker_and_adapter_no_atadapter")
     >>> dummy.name
-    u'marker_and_adapter_no_atadapter'
+    'marker_and_adapter_no_atadapter'
 
     >>> dummy.title
-    u'Marker and adapter no @adapter'
+    'Marker and adapter no @adapter'
 
     >>> dummy.description is None
     True
@@ -347,13 +347,13 @@ declaration on the factory.
 
     >>> dummy = getUtility(IBehavior, name=u"name_only")
     >>> dummy.name
-    u'name_only'
+    'name_only'
 
 8) A behavior that used to be known under a different dotted name
 
     A behavior that has been renamed, can of course be found under the new name.
     The representation tells us the former dotted name.
-    
+
     >>> dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IRenamedAdapterBehavior")
     >>> dummy  # doctest: +ELLIPSIS
     <BehaviorRegistration renamed_adapter_behavior at ...
@@ -376,7 +376,7 @@ Test registration lookup helper utility.
     >>> lookup_behavior_registration('inexistent')
     Traceback (most recent call last):
       ...
-    BehaviorRegistrationNotFound: inexistent
+    plone.behavior.registration.BehaviorRegistrationNotFound: inexistent
 
     >>> lookup_behavior_registration('adapter_behavior')  # doctest: +ELLIPSIS
     <BehaviorRegistration adapter_behavior at ...
@@ -399,7 +399,7 @@ Test registration lookup helper utility.
     >
 
     A lookup via getUtility for a former behavior name fails.
-    
+
     >>> failed = False
     >>> try:
     ...     dummy = getUtility(IBehavior, name=u"plone.behavior.tests.IOriginalAdapterBehavior")
@@ -409,7 +409,7 @@ Test registration lookup helper utility.
     True
 
     But the lookup helper still finds it under the former name.
-    
+
     >>> dummy = lookup_behavior_registration("plone.behavior.tests.IOriginalAdapterBehavior")
     >>> dummy.name
-    u'renamed_adapter_behavior'
+    'renamed_adapter_behavior'

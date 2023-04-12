@@ -99,7 +99,7 @@ def lookup_behavior_registration(name=None, identifier=None, warn_about_fallback
             # if the requested name is registered as a former dotted name.
             if name in behavior.former_dotted_names:
                 if warn_about_fallback:
-                    logger.warn(
+                    logger.warning(
                         'The dotted name "{}" is deprecated. It has been '
                         'changed to "{}"'.format(
                             name,

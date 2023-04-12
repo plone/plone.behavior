@@ -94,14 +94,14 @@ Let's look at the annotations also::
 
 If we now set the value, it will be stored in annotations::
 
-    >>> adapted.some_field = u'New value'
+    >>> adapted.some_field = 'New value'
     >>> sorted(IAnnotations(context).items())
-    [('plone.behavior.tests.IAnnotationStored.some_field', u'New value')]
+    [('plone.behavior.tests.IAnnotationStored.some_field', 'New value')]
 
 And of course we can get it back again::
 
     >>> adapted.some_field
-    u'New value'
+    'New value'
 
 If we try to get some other field, we get an AttributeError::
 
