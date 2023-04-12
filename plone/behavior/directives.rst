@@ -299,7 +299,7 @@ declaration on the factory.
     >>> dummy.factory # doctest: +ELLIPSIS
     <plone.behavior.annotation.AnnotationStorage object at ...>
 
-    The factory has ist ``__component_adapts__`` (``@adapter``) in place, so the adapted Interface must be returned.
+    The factory has it's ``__component_adapts__`` (``@adapter``) in place, so the adapted Interface must be returned.
 
     >>> from plone.behavior.tests import IMarkerAndAdapterBehavior
     >>> [a.required for a in sm.registeredAdapters() if a.provided == IMarkerAndAdapterBehavior][0]
@@ -327,7 +327,7 @@ declaration on the factory.
     >>> dummy.factory # doctest: +ELLIPSIS
     <class 'plone.behavior.tests.DummyBehaviorImpl'>
 
-    The factory has ist ``__component_adapts__`` (``@adapter``) in place, so the adapted Interface must be returned.
+    The factory has it's ``__component_adapts__`` (``@adapter``) in place, so the adapted Interface must be returned.
 
     >>> from plone.behavior.tests import IMarkerAndAdapterBehavior2
     >>> [a.required for a in sm.registeredAdapters() if a.provided == IMarkerAndAdapterBehavior2][0]

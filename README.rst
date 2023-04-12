@@ -147,7 +147,7 @@ The directive supports the attributes:
 ``name``
     Convenience lookup name for this behavior (optional).
     The behavior will be always registered under the dotted name of ``provides`` attribute.
-    This are usally long names. ``name`` is a short name for this.
+    This are usually long names. ``name`` is a short name for this.
     If ``name`` is given the behavior is registered additional under it.
     Anyway using short namespaces in ``name`` is recommended.
 
@@ -189,13 +189,13 @@ ZCML Examples
 
 Example usage, given
 
-- some ``context`` (some arbitary object) which is ``IBehaviorAssignable``,
-- an ``IMyBehavior`` interface intented to be used as ``provides``,
-- an ``IMyMarker`` interface intented to be used as ``marker``,
+- some ``context`` (some arbitrary object) which is ``IBehaviorAssignable``,
+- an ``IMyBehavior`` interface intended to be used as ``provides``,
+- an ``IMyMarker`` interface intended to be used as ``marker``,
 - a ``MyFactory`` class implementing ``IMyBehavior`` ,
 - a ``MySchemaAwareFactory`` class implementing ``IMyBehavior`` and ``plone.behavior.interfaces.ISchemaAwareFactory``,
-- an ``IMyType`` intented to be used as ``for``.
-- some ``typed_context`` (some arbitary object) which is ``IBehaviorAssignable`` and provides ``IMyType``,
+- an ``IMyType`` intended to be used as ``for``.
+- some ``typed_context`` (some arbitrary object) which is ``IBehaviorAssignable`` and provides ``IMyType``,
 - an ``MyTypedFactory`` class implementing ``IMyBehavior`` and adapting ``IMyType``,
 
 ``title`` and ``description`` is trivial, so we dont cover it here in the explanantion.
@@ -220,7 +220,7 @@ I.e. both is done by ``plone.dexterity``.
 .. warning::
    Using the same Interface as marker and behavior works, but is not recommended and will be deprecated in future.
    It is semantically wrong!
-   
+
    Go for Example 3 instead!
 
 ::
