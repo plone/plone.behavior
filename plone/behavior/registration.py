@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.behavior import logger
 from plone.behavior.interfaces import IBehavior
 from zope.component import ComponentLookupError
@@ -27,7 +26,7 @@ REGISTRATION_REPR = """\
 
 
 @implementer(IBehavior)
-class BehaviorRegistration(object):
+class BehaviorRegistration:
 
     def __init__(self, title, description, interface,
                  marker, factory, name=None, former_dotted_names=''):
@@ -60,7 +59,7 @@ class BehaviorRegistration(object):
             ),
             'extra_info': (
                 self.former_dotted_names and
-                '\n  former dotted names: {0}'.format(self.former_dotted_names)
+                f'\n  former dotted names: {self.former_dotted_names}'
             ),
         }
         return REGISTRATION_REPR.format(**info)
@@ -96,8 +95,8 @@ def lookup_behavior_registration(
             if name in behavior.former_dotted_names:
                 if warn_about_fallback:
                     logger.warn(
-                        'The dotted name "{0}" is deprecated. It has been '
-                        'changed to "{1}"'.format(
+                        'The dotted name "{}" is deprecated. It has been '
+                        'changed to "{}"'.format(
                             name, behavior.interface.__identifier__, ))
                 return behavior
         raise BehaviorRegistrationNotFound(name)

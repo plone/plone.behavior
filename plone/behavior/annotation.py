@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.behavior.interfaces import ISchemaAwareFactory
 from zope.annotation.interfaces import IAnnotatable
 from zope.annotation.interfaces import IAnnotations
@@ -8,7 +7,7 @@ from zope.interface import provider
 
 
 @adapter(IAnnotatable)
-class AnnotationsFactoryImpl(object):
+class AnnotationsFactoryImpl:
     """A factory that knows how to store data in annotations.
 
     Each value will be stored as a primitive in the annotations under a key
@@ -38,14 +37,14 @@ class AnnotationsFactoryImpl(object):
 
     def __setattr__(self, name, value):
         if name not in self.__dict__['schema']:
-            super(AnnotationsFactoryImpl, self).__setattr__(name, value)
+            super().__setattr__(name, value)
         else:
             prefixed_name = self.__dict__['prefix'] + name
             self.__dict__['annotations'][prefixed_name] = value
 
 
 @provider(ISchemaAwareFactory)
-class AnnotationStorage(object):
+class AnnotationStorage:
     """Behavior adapter factory class for storing data in annotations.
     """
 

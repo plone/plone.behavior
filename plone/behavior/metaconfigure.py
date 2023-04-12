@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.behavior import logger
 from plone.behavior.factory import BehaviorAdapterFactory
 from plone.behavior.interfaces import IBehavior
@@ -23,65 +22,65 @@ class IBehaviorDirective(Interface):
     """
 
     name = TextLine(
-        title=u'Name',
-        description=u'Convenience lookup name for this behavior',
+        title='Name',
+        description='Convenience lookup name for this behavior',
         required=False,
     )
 
     title = configuration_fields.MessageID(
-        title=u'Title',
-        description=u'A user friendly title for this behavior',
+        title='Title',
+        description='A user friendly title for this behavior',
         required=True,
     )
 
     description = configuration_fields.MessageID(
-        title=u'Description',
-        description=u'A longer description for this behavior',
+        title='Description',
+        description='A longer description for this behavior',
         required=False,
     )
 
     provides = configuration_fields.GlobalInterface(
-        title=u'An interface to which the behavior can be adapted',
-        description=u'This is what the conditional adapter factory will '
-                    u'be registered as providing',
+        title='An interface to which the behavior can be adapted',
+        description='This is what the conditional adapter factory will '
+                    'be registered as providing',
         required=True,
     )
 
     marker = configuration_fields.GlobalInterface(
-        title=u'A marker interface to be applied by the behavior',
-        description=u'If factory is not given, then this is optional',
+        title='A marker interface to be applied by the behavior',
+        description='If factory is not given, then this is optional',
         required=False,
     )
 
     factory = configuration_fields.GlobalObject(
-        title=u'The factory for this behavior',
-        description=u'If this is not given, the behavior is assumed to '
-                    u'provide a marker interface',
+        title='The factory for this behavior',
+        description='If this is not given, the behavior is assumed to '
+                    'provide a marker interface',
         required=False,
     )
 
     for_ = configuration_fields.GlobalObject(
-        title=u'The type of object to register the conditional adapter '
-              u'factory for',
-        description=u'This is optional - the default is to register the '
-                    u'factory for zope.interface.Interface',
+        title='The type of object to register the conditional adapter '
+              'factory for',
+        description='This is optional - the default is to register the '
+                    'factory for zope.interface.Interface',
         required=False,
     )
 
     name_only = configuration_fields.Bool(
-        title=u'Do not register the behavior under the dotted path, but '
-              u'only under the given name',
-        description=u'Use this option to register a behavior for the same '
-                    u'provides under a different name.',
+        title='Do not register the behavior under the dotted path, but '
+              'only under the given name',
+        description='Use this option to register a behavior for the same '
+                    'provides under a different name.',
         required=False,
     )
 
     former_dotted_names = TextLine(
-        title=u'Space-separated list of dotted names that this behavior was '
-              u'formerly registered under',
-        description=u'Use this field in case you change the dotted name, '
-                    u'so that the current behavior can be looked up under '
-                    u'its former name.',
+        title='Space-separated list of dotted names that this behavior was '
+              'formerly registered under',
+        description='Use this field in case you change the dotted name, '
+                    'so that the current behavior can be looked up under '
+                    'its former name.',
         required=False,
     )
 
@@ -97,7 +96,7 @@ def _detect_for(factory, marker):
         return adapts[0]
     if len(adapts) > 1:
         raise ConfigurationError(
-            u'The factory can not be declared as multi-adapter.')
+            'The factory can not be declared as multi-adapter.')
     # down here it means len(adapts) < 1
     if marker is not None:
         # given we have a marker it is safe to register for the
@@ -119,12 +118,12 @@ def behaviorDirective(_context, title, provides, name=None, description=None,
 
     if marker is not None and factory is None and marker is not provides:
         raise ConfigurationError(
-            u'You cannot specify a different \'marker\' and \'provides\' if '
-            u'there is no adapter factory for the provided interface.')
+            'You cannot specify a different \'marker\' and \'provides\' if '
+            'there is no adapter factory for the provided interface.')
     if name_only and name is None:
         raise ConfigurationError(
-            u'If you decide to only register by \'name\', a name must '
-            u'be given.')
+            'If you decide to only register by \'name\', a name must '
+            'be given.')
 
     # Instantiate the real factory if it's the schema-aware type. We do
     # this here so that the for_ interface may take this into account.
@@ -168,8 +167,8 @@ def behaviorDirective(_context, title, provides, name=None, description=None,
     if factory is None:
         if for_ is not None:
             logger.warn(
-                u'Specifying \'for\' in behavior \'{0}\' if no \'factory\' is '
-                u'given has no effect and is superfluous.'.format(title))
+                'Specifying \'for\' in behavior \'{}\' if no \'factory\' is '
+                'given has no effect and is superfluous.'.format(title))
         # w/o factory we're done here: schema only behavior
         return
 

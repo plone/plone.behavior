@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import print_function
 from zope import schema
 from zope.component import adapter
 from zope.interface import implementer
@@ -18,7 +16,7 @@ class IAdapterBehavior(Interface):
 
 
 @implementer(IAdapterBehavior)
-class AdapterBehavior(object):
+class AdapterBehavior:
     def __init__(self, context):
         self.context = context
 
@@ -29,7 +27,7 @@ class IRenamedAdapterBehavior(Interface):
 
 
 @implementer(IRenamedAdapterBehavior)
-class RenamedAdapterBehavior(object):
+class RenamedAdapterBehavior:
     def __init__(self, context):
         self.context = context
 
@@ -40,7 +38,7 @@ class IRestrictedAdapterBehavior(Interface):
 
 
 @implementer(IRestrictedAdapterBehavior)
-class RestrictedAdapterBehavior(object):
+class RestrictedAdapterBehavior:
     def __init__(self, context):
         self.context = context
 
@@ -60,7 +58,7 @@ class ISomeContext(Interface):
 
 @implementer(IImpliedRestrictionAdapterBehavior)
 @adapter(ISomeContext)
-class ImpliedRestrictionAdapterBehavior(object):
+class ImpliedRestrictionAdapterBehavior:
 
     def __init__(self, context):
         self.context = context
@@ -78,7 +76,7 @@ class INameOnlyBehavior(Interface):
 
 # For test of the annotation factory
 class IAnnotationStored(Interface):
-    some_field = schema.TextLine(title=u'Some field', default=u'default value')
+    some_field = schema.TextLine(title='Some field', default='default value')
 
 
 # Behavior and marker
@@ -98,7 +96,7 @@ class IMarkerAndAdapterMarker2(Interface):
     pass
 
 
-class DummyBehaviorImpl(object):
+class DummyBehaviorImpl:
 
     def __init__(self, context):
         self.context = context

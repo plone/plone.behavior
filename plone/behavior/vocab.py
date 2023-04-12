@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.behavior.interfaces import IBehavior
 from zope.component import getUtilitiesFor
 from zope.interface import provider
