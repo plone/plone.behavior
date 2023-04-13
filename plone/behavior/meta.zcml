@@ -1,15 +1,16 @@
 <configure
     xmlns="http://namespaces.zope.org/meta"
-    i18n_domain="plone.behavior">
+    i18n_domain="plone.behavior"
+    >
 
-    <directives namespace="http://namespaces.plone.org/plone">
+  <directives namespace="http://namespaces.plone.org/plone">
 
-        <directive
-            name="behavior"
-            schema=".metaconfigure.IBehaviorDirective"
-            handler=".metaconfigure.behaviorDirective"
-            />
+    <directive
+        name="behavior"
+        handler=".metaconfigure.behaviorDirective"
+        schema=".metaconfigure.IBehaviorDirective"
+        />
 
-    </directives>
+  </directives>
 
 </configure>

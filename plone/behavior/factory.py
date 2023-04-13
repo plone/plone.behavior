@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
 from plone.behavior.interfaces import IBehaviorAdapterFactory
 from plone.behavior.interfaces import IBehaviorAssignable
 from zope.interface import implementer
 
 
 @implementer(IBehaviorAdapterFactory)
-class BehaviorAdapterFactory(object):
-
+class BehaviorAdapterFactory:
     def __init__(self, behavior):
         self.behavior = behavior
 

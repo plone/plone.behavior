@@ -1,13 +1,9 @@
-# -*- coding: utf-8 -*-
-from __future__ import print_function
 from zope import schema
 from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import Interface
 
 import doctest
-import re
-import sys
 import unittest
 import zope.component.testing
 
@@ -18,7 +14,7 @@ class IAdapterBehavior(Interface):
 
 
 @implementer(IAdapterBehavior)
-class AdapterBehavior(object):
+class AdapterBehavior:
     def __init__(self, context):
         self.context = context
 
@@ -29,7 +25,7 @@ class IRenamedAdapterBehavior(Interface):
 
 
 @implementer(IRenamedAdapterBehavior)
-class RenamedAdapterBehavior(object):
+class RenamedAdapterBehavior:
     def __init__(self, context):
         self.context = context
 
@@ -40,7 +36,7 @@ class IRestrictedAdapterBehavior(Interface):
 
 
 @implementer(IRestrictedAdapterBehavior)
-class RestrictedAdapterBehavior(object):
+class RestrictedAdapterBehavior:
     def __init__(self, context):
         self.context = context
 
@@ -60,8 +56,7 @@ class ISomeContext(Interface):
 
 @implementer(IImpliedRestrictionAdapterBehavior)
 @adapter(ISomeContext)
-class ImpliedRestrictionAdapterBehavior(object):
-
+class ImpliedRestrictionAdapterBehavior:
     def __init__(self, context):
         self.context = context
 
@@ -78,7 +73,7 @@ class INameOnlyBehavior(Interface):
 
 # For test of the annotation factory
 class IAnnotationStored(Interface):
-    some_field = schema.TextLine(title=u'Some field', default=u'default value')
+    some_field = schema.TextLine(title="Some field", default="default value")
 
 
 # Behavior and marker
@@ -98,44 +93,31 @@ class IMarkerAndAdapterMarker2(Interface):
     pass
 
 
-class DummyBehaviorImpl(object):
-
+class DummyBehaviorImpl:
     def __init__(self, context):
         self.context = context
 
 
-class Py23DocChecker(doctest.OutputChecker):
-    def check_output(self, want, got, optionflags):
-        if sys.version_info[0] > 2:
-            want = re.sub("u'(.*?)'", "'\\1'", want)
-            want = re.sub('u"(.*?)"', '"\\1"', want)
-            got = re.sub(
-                'plone.behavior.registration.BehaviorRegistrationNotFound',
-                'BehaviorRegistrationNotFound', got)
-        return doctest.OutputChecker.check_output(self, want, got, optionflags)
-
-
 def test_suite():
-    return unittest.TestSuite((
-
-        doctest.DocFileSuite(
-            'behaviors.rst',
-            tearDown=zope.component.testing.tearDown,
-            globs={
-                'print_function': print_function,
-            },
-            checker=Py23DocChecker(),
-        ),
-        doctest.DocFileSuite(
-            'directives.rst',
-            setUp=zope.component.testing.setUp,
-            tearDown=zope.component.testing.tearDown,
-            checker=Py23DocChecker(),
-        ),
-        doctest.DocFileSuite(
-            'annotation.rst',
-            setUp=zope.component.testing.setUp,
-            tearDown=zope.component.testing.tearDown,
-            checker=Py23DocChecker(),
-        ),
-    ))
+    return unittest.TestSuite(
+        (
+            doctest.DocFileSuite(
+                "behaviors.rst",
+                setUp=zope.component.testing.setUp,
+                tearDown=zope.component.testing.tearDown,
+                globs={
+                    "print_function": print,
+                },
+            ),
+            doctest.DocFileSuite(
+                "directives.rst",
+                setUp=zope.component.testing.setUp,
+                tearDown=zope.component.testing.tearDown,
+            ),
+            doctest.DocFileSuite(
+                "annotation.rst",
+                setUp=zope.component.testing.setUp,
+                tearDown=zope.component.testing.tearDown,
+            ),
+        )
+    )

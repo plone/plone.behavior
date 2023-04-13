@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from zope import schema
 from zope.interface import Interface
 from zope.interface.interfaces import IInterface
@@ -18,8 +17,7 @@ class IBehaviorAssignable(Interface):
         """
 
     def enumerateBehaviors():
-        """Return an iterable of all the IBehaviors supported by the context.
-        """
+        """Return an iterable of all the IBehaviors supported by the context."""
 
 
 class IBehavior(Interface):
@@ -29,41 +27,41 @@ class IBehavior(Interface):
     """
 
     title = schema.TextLine(
-        title=u'Short title of the behavior',
+        title="Short title of the behavior",
         required=True,
     )
 
     description = schema.Text(
-        title=u'Longer description of the behavior',
+        title="Longer description of the behavior",
         required=False,
     )
 
     name = schema.TextLine(
-        title=u'Readable short name to be used for behavior lookup',
-        description=u'E.g. plone.somebehavior. If not given the full dotted '
-                    u'name of the interfaces is used for lookup instead.'
-                    u'Recommended, but due to BBB not required.',
+        title="Readable short name to be used for behavior lookup",
+        description="E.g. plone.somebehavior. If not given the full dotted "
+        "name of the interfaces is used for lookup instead."
+        "Recommended, but due to BBB not required.",
         required=False,
     )
 
     interface = schema.Object(
-        title=u'Interface describing this behavior',
+        title="Interface describing this behavior",
         required=True,
         schema=IInterface,
     )
 
     marker = schema.Object(
-        title=u'Marker interface for objects sporting this behavior',
-        description=u'Markers are persisted in the ZODB. '
-                    u'Required when a factory is given, because the factory '
-                    u'is an adapter adapting the the marker and providing the '
-                    u'"interface" of this behavior.',
+        title="Marker interface for objects sporting this behavior",
+        description="Markers are persisted in the ZODB. "
+        "Required when a factory is given, because the factory "
+        "is an adapter adapting the the marker and providing the "
+        '"interface" of this behavior.',
         required=False,
         schema=IInterface,
     )
 
     factory = schema.Object(
-        title=u'An adapter factory for the behavior',
+        title="An adapter factory for the behavior",
         required=True,
         schema=Interface,
     )
@@ -85,7 +83,7 @@ class IBehaviorAdapterFactory(Interface):
     """
 
     behavior = schema.Object(
-        title=u'The behavior this is a factory for',
+        title="The behavior this is a factory for",
         schema=IBehavior,
     )
 
