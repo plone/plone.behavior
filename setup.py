@@ -1,22 +1,23 @@
+from pathlib import Path
 from setuptools import find_packages
 from setuptools import setup
 
 
 version = "2.0.1.dev0"
 desc = "Infrastructure for maintaining a registry of available behaviors"
-doc_files = [
-    "README.rst",
-    "CHANGES.rst",
-]
-longdesc = "\n".join([open(_).read() for _ in doc_files])
 
+long_description = (
+    f"{Path('README.rst').read_text()}\n{Path('CHANGES.rst').read_text()}"
+)
 
 setup(
     name="plone.behavior",
     version=version,
     description=desc,
-    long_description=longdesc,
-    # more strings from https://pypi.org/classifiers/
+    long_description=long_description,
+    long_description_content_type="text/x-rst",
+    # Get more strings from
+    # https://pypi.org/classifiers/
     classifiers=[
         "Development Status :: 6 - Mature",
         "Framework :: Plone",
