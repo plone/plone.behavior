@@ -11,7 +11,7 @@ Overview
 
 This package provides support for **behaviors**.
 
-    A behavior is a re-usable aspect of an object that can be enabled or disabled without changing the component registry.
+    A behavior is a reusable aspect of an object that can be enabled or disabled without changing the component registry.
 
 A behavior is described by an interface, and has metadata such as a title and a description.
 The behavior can be looked up by a given short name or by the dotted name of the interface.
@@ -198,8 +198,8 @@ Example usage, given
 - some ``typed_context`` (some arbitrary object) which is ``IBehaviorAssignable`` and provides ``IMyType``,
 - an ``MyTypedFactory`` class implementing ``IMyBehavior`` and adapting ``IMyType``,
 
-``title`` and ``description`` is trivial, so we dont cover it here in the explanantion.
-We dont cover ``name`` too, because it's not having any effect in this usage.
+``title`` and ``description`` is trivial, so we don't cover it here in the explanation.
+We don't cover ``name`` too, because it's not having any effect in this usage.
 To simplify it, we assume ``context`` ``IBehaviorAssignable`` always supports the behavior.
 Also for simplifications sake we assume some magic applies the marker interface to ``context``
 I.e. both is done by ``plone.dexterity``.
