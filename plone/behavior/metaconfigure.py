@@ -172,7 +172,7 @@ def behaviorDirective(
 
     if factory is None:
         if for_ is not None:
-            logger.warn(
+            logger.warning(
                 "Specifying 'for' in behavior '{}' if no 'factory' is "
                 "given has no effect and is superfluous.".format(title)
             )
