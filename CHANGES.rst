@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.2 (2025-06-18)
+------------------
+
+Bug fixes:
+
+
+- Fix `logger.warn()` deprecation warning.
+  [szakitibi] (#48)
+
+
 2.0.1 (2024-01-19)
 ------------------
 
