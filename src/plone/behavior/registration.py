@@ -7,7 +7,6 @@ from zope.interface import implementer
 
 import textwrap
 
-
 REGISTRATION_REPR = """\
 <{class} {name} at {id}
   schema: {identifier}
