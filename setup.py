@@ -1,7 +1,6 @@
 from pathlib import Path
 from setuptools import setup
 
-
 version = "3.0.0a2.dev0"
 desc = "Infrastructure for maintaining a registry of available behaviors"
 
