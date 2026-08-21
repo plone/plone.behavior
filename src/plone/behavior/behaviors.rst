@@ -361,3 +361,13 @@ since it implements our behavior interface directly::
     True
     >>> IMarkerBehavior(context) is context
     True
+
+Vocabulary
+----------
+
+The `Behaviors` vocabulary returns the registered behaviors.
+
+    >>> from plone.behavior.vocab import BehaviorsVocabularyFactory
+    >>> vocab = BehaviorsVocabularyFactory(context)
+    >>> [(term.token, term.title, term.value) for term in vocab]
+    [('builtins.ILockingSupport', 'Locking support', 'builtins.ILockingSupport'), ('builtins.ITagging', 'Tagging support', 'builtins.ITagging'), ('builtins.IMarkerBehavior', '', 'builtins.IMarkerBehavior')]
