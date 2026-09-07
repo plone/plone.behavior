@@ -1,1 +1,0 @@
-Fix ValueError in the Behaviors vocabulary when there are behaviors registered with names. @davisagli

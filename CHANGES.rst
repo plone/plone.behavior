@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+3.0.1 (2026-09-07)
+------------------
+
+Bug fixes:
+
+
+- Fix ValueError in the Behaviors vocabulary when there are behaviors registered with names. @davisagli
+
+
 3.0.0 (2026-05-16)
 ------------------
 
